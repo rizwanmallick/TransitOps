@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,22 +10,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface RevenueChartProps {
-  data: { month: string; revenue: number }[];
+interface MonthlyFuelCostTrendProps {
+  data: { month: string; cost: number }[];
 }
 
-export function RevenueChart({ data }: RevenueChartProps) {
+export function MonthlyFuelCostTrend({ data }: MonthlyFuelCostTrendProps) {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-400 dark:text-slate-500 text-sm">
-        No revenue data available
+        No fuel cost data available
       </div>
     );
   }
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
+      <AreaChart data={data}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
         <XAxis dataKey="month" stroke="#94A3B8" fontSize={12} />
         <YAxis stroke="#94A3B8" fontSize={12} />
@@ -38,10 +38,16 @@ export function RevenueChart({ data }: RevenueChartProps) {
             color: "#F8FAFC",
           }}
           labelStyle={{ color: "#F8FAFC" }}
-          itemStyle={{ color: "#22C55E" }}
+          formatter={(value) => [`₹${Number(value ?? 0).toLocaleString("en-IN")}`, "Fuel Cost"]}
         />
-        <Bar dataKey="revenue" fill="#22C55E" radius={[6, 6, 0, 0]} />
-      </BarChart>
+        <Area
+          type="monotone"
+          dataKey="cost"
+          stroke="#22C55E"
+          fill="rgba(34, 197, 94, 0.15)"
+          strokeWidth={2}
+        />
+      </AreaChart>
     </ResponsiveContainer>
   );
 }

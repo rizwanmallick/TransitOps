@@ -26,21 +26,22 @@ export function TopCostlyChart({ data }: TopCostlyChartProps) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data} layout="vertical">
-        <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
         <XAxis type="number" stroke="#94A3B8" fontSize={12} />
         <YAxis dataKey="name" type="category" stroke="#94A3B8" fontSize={12} width={80} />
         <Tooltip
           contentStyle={{
-            backgroundColor: "#FFFFFF",
-            border: "1px solid #E2E8F0",
-            borderRadius: "8px",
-            color: "#1E293B",
+            backgroundColor: "rgba(15, 23, 42, 0.9)",
+            backdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            borderRadius: "12px",
+            color: "#F8FAFC",
           }}
-          labelStyle={{ color: "#1E293B" }}
+          labelStyle={{ color: "#F8FAFC" }}
           itemStyle={{ color: "#F59E0B" }}
           formatter={(value) => `₹${Number(value ?? 0).toLocaleString("en-IN")}`}
         />
-        <Bar dataKey="cost" fill="#3B82F6" radius={[0, 4, 4, 0]} />
+        <Bar dataKey="cost" fill="#F59E0B" radius={[0, 6, 6, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

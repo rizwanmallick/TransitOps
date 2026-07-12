@@ -15,6 +15,9 @@ export async function getReportsData() {
     expenses,
     completedTrips,
     totalTrips,
+    drivers,
+    allTrips,
+    vehicles,
   ] = await Promise.all([
     prisma.vehicle.count(),
     prisma.vehicle.count({ where: { status: "ON_TRIP" } }),
@@ -24,6 +27,9 @@ export async function getReportsData() {
     prisma.expense.findMany(),
     prisma.trip.findMany({ where: { status: "COMPLETED" } }),
     prisma.trip.count(),
+    prisma.driver.findMany({ select: { id: true, name: true, safetyScore: true, status: true } }),
+    prisma.trip.findMany(),
+    prisma.vehicle.findMany({ select: { id: true, name: true, type: true, yearOfManufacture: true } }),
   ]);
 
   // Fleet Utilization
@@ -95,6 +101,101 @@ export async function getReportsData() {
     .sort((a, b) => b.cost - a.cost)
     .slice(0, 5);
 
+  // === NEW CHART DATA ===
+
+  // Driver Safety Scores
+  const driverSafetyData = drivers.map((d) => ({
+    name: d.name,
+    score: d.safetyScore,
+    status: d.status,
+  })).sort((a, b) => b.score - a.score);
+
+  // Trip Status Distribution
+  const tripStatusCounts: Record<string, number> = {};
+  allTrips.forEach((t) => {
+    tripStatusCounts[t.status] = (tripStatusCounts[t.status] || 0) + 1;
+  });
+  const tripStatusData = Object.entries(tripStatusCounts).map(([status, count]) => ({
+    name: status.replace("_", " "),
+    value: count,
+  }));
+
+  // Fuel Efficiency Trend (monthly avg km/L)
+  const monthlyTrips: Record<string, { distance: number; fuel: number }> = {};
+  completedTrips.forEach((trip) => {
+    if (trip.actualDistance && trip.fuelConsumed && trip.fuelConsumed > 0) {
+      const month = new Date(trip.completedAt || trip.createdAt).toLocaleDateString("en-IN", {
+        month: "short",
+        year: "numeric",
+      });
+      if (!monthlyTrips[month]) monthlyTrips[month] = { distance: 0, fuel: 0 };
+      monthlyTrips[month].distance += trip.actualDistance;
+      monthlyTrips[month].fuel += trip.fuelConsumed;
+    }
+  });
+  const fuelEfficiencyTrend = Object.entries(monthlyTrips)
+    .map(([month, data]) => ({
+      month,
+      efficiency: Number((data.distance / data.fuel).toFixed(1)),
+    }))
+    .sort((a, b) => {
+      const dateA = new Date(a.month);
+      const dateB = new Date(b.month);
+      return dateA.getTime() - dateB.getTime();
+    });
+
+  // Maintenance Cost Breakdown by type
+  const maintenanceByType: Record<string, number> = {};
+  maintenanceCosts.forEach((m) => {
+    maintenanceByType[m.serviceType] = (maintenanceByType[m.serviceType] || 0) + m.cost;
+  });
+  const maintenanceCostData = Object.entries(maintenanceByType)
+    .map(([type, cost]) => ({
+      name: type.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()),
+      value: cost,
+    }))
+    .sort((a, b) => b.value - a.value);
+
+  // Fleet Age Distribution
+  const currentYear = new Date().getFullYear();
+  const ageBuckets: Record<string, number> = { "0-1 years": 0, "2-3 years": 0, "4-5 years": 0, "6+ years": 0 };
+  vehicles.forEach((v) => {
+    const age = currentYear - v.yearOfManufacture;
+    if (age <= 1) ageBuckets["0-1 years"]++;
+    else if (age <= 3) ageBuckets["2-3 years"]++;
+    else if (age <= 5) ageBuckets["4-5 years"]++;
+    else ageBuckets["6+ years"]++;
+  });
+  const fleetAgeData = Object.entries(ageBuckets).map(([range, count]) => ({
+    name: range,
+    count,
+  }));
+
+  // Expense Category Breakdown
+  const expenseByCategory: Record<string, number> = {};
+  expenses.forEach((e) => {
+    expenseByCategory[e.category] = (expenseByCategory[e.category] || 0) + e.amount;
+  });
+  const expenseBreakdownData = Object.entries(expenseByCategory)
+    .map(([category, amount]) => ({
+      name: category.charAt(0) + category.slice(1).toLowerCase(),
+      value: amount,
+    }))
+    .sort((a, b) => b.value - a.value);
+
+  // Monthly Fuel Cost Trend
+  const monthlyFuelCosts: Record<string, number> = {};
+  fuelLogs.forEach((log) => {
+    const month = new Date(log.date).toLocaleDateString("en-IN", {
+      month: "short",
+      year: "numeric",
+    });
+    monthlyFuelCosts[month] = (monthlyFuelCosts[month] || 0) + log.cost;
+  });
+  const monthlyFuelCostTrend = Object.entries(monthlyFuelCosts)
+    .map(([month, cost]) => ({ month, cost }))
+    .sort((a, b) => new Date(a.month).getTime() - new Date(b.month).getTime());
+
   return {
     fleetUtilization,
     avgFuelEfficiency,
@@ -105,6 +206,13 @@ export async function getReportsData() {
       revenue,
     })),
     topCostlyVehicles,
+    driverSafetyData,
+    tripStatusData,
+    fuelEfficiencyTrend,
+    maintenanceCostData,
+    fleetAgeData,
+    expenseBreakdownData,
+    monthlyFuelCostTrend,
   };
 }
 

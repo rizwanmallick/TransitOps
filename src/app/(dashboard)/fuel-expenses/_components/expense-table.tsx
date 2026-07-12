@@ -25,21 +25,21 @@ interface ExpenseTableProps {
 
 export function ExpenseTable({ data }: ExpenseTableProps) {
   return (
-    <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg overflow-hidden">
+    <div className="glass-card overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-transparent">
-            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium">Vehicle</TableHead>
-            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium">Category</TableHead>
-            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium">Description</TableHead>
-            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium">Amount</TableHead>
-            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium">Date</TableHead>
+          <TableRow className="border-black/5 dark:border-white/5 hover:bg-transparent">
+            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider">Vehicle</TableHead>
+            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider">Category</TableHead>
+            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider">Description</TableHead>
+            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider">Amount</TableHead>
+            <TableHead className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider">Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((expense) => (
-            <TableRow key={expense.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-slate-50 dark:hover:bg-white/5">
-              <TableCell className="font-medium text-slate-800 dark:text-white">{expense.vehicle.name}</TableCell>
+            <TableRow key={expense.id} className="border-black/5 dark:border-white/5 hover:bg-white/50 dark:hover:bg-white/3 transition-colors">
+              <TableCell className="font-semibold text-slate-900 dark:text-white">{expense.vehicle.name}</TableCell>
               <TableCell>
                 <StatusBadge
                   status={expense.category}
@@ -53,7 +53,7 @@ export function ExpenseTable({ data }: ExpenseTableProps) {
           ))}
           {data.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8 text-slate-400 dark:text-slate-500">
+              <TableCell colSpan={5} className="text-center py-12 text-slate-400 dark:text-slate-500">
                 No expenses found
               </TableCell>
             </TableRow>

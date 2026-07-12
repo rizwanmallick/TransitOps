@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FuelLogTable } from "./_components/fuel-log-table";
 import { ExpenseTable } from "./_components/expense-table";
@@ -35,11 +33,11 @@ export function FuelExpensesDataTable({
       </div>
 
       <Tabs defaultValue="fuel" className="space-y-4">
-        <TabsList className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E]">
-          <TabsTrigger value="fuel" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+        <TabsList className="bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 rounded-xl p-1">
+          <TabsTrigger value="fuel" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white rounded-lg px-6 cursor-pointer">
             Fuel Logs
           </TabsTrigger>
-          <TabsTrigger value="expenses" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
+          <TabsTrigger value="expenses" className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white rounded-lg px-6 cursor-pointer">
             Other Expenses
           </TabsTrigger>
         </TabsList>
@@ -54,11 +52,12 @@ export function FuelExpensesDataTable({
       </Tabs>
 
       {/* Summary */}
-      <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-4 flex items-center justify-between">
-        <span className="text-sm text-slate-400 dark:text-slate-500">
-          TOTAL OPERATIONAL COST (FUEL + MAINTENANCE)
-        </span>
-        <span className="text-lg font-bold text-amber-500">
+      <div className="glass-card p-5 flex items-center justify-between">
+        <div>
+          <p className="text-sm text-slate-500 dark:text-slate-400">Total Operational Cost</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Fuel + Maintenance combined</p>
+        </div>
+        <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
           ₹{totalOperationalCost.toLocaleString("en-IN")}
         </span>
       </div>

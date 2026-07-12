@@ -7,9 +7,10 @@ export default async function FuelExpensesPage() {
   const data = await getFuelAndExpenseData();
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Fuel & Expense Management</h1>
+    <div className="space-y-6 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Fuel & Expense Management</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Track fuel consumption and operational costs</p>
       </div>
       <FuelExpensesDataTable {...data} />
     </div>

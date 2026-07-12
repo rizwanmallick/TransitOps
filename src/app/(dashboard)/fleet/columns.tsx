@@ -25,7 +25,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     accessorKey: "registrationNumber",
     header: "Plate / Reg. No.",
     cell: ({ row }) => (
-      <span className="font-medium text-slate-800 dark:text-white">{row.original.registrationNumber}</span>
+      <span className="font-semibold text-slate-900 dark:text-white">{row.original.registrationNumber}</span>
     ),
   },
   {
@@ -73,20 +73,20 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
       const vehicle = row.original;
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger render={<Button variant="ghost" className="h-8 w-8 p-0" />}>
+          <DropdownMenuTrigger render={<Button variant="ghost" className="h-8 w-8 p-0 cursor-pointer" />}>
               <MoreHorizontal className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
+          <DropdownMenuContent align="end" className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-2xl rounded-xl">
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onEdit?: (v: Vehicle) => void })?.onEdit?.(vehicle)}
-              className="text-slate-500 dark:text-slate-400 focus:bg-slate-100 focus:text-slate-800 dark:text-white"
+              className="text-slate-600 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/5 rounded-lg mx-1 cursor-pointer"
             >
               <Pencil className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onDelete?: (id: string) => void })?.onDelete?.(vehicle.id)}
-              className="text-red-400 focus:bg-red-50 focus:text-red-400"
+              className="text-red-500 focus:bg-red-50 dark:focus:bg-red-500/10 rounded-lg mx-1 cursor-pointer"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete

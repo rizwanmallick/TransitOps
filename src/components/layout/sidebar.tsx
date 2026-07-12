@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   Truck,
@@ -13,6 +13,7 @@ import {
   Fuel,
   BarChart3,
   Settings,
+  Zap,
 } from "lucide-react";
 
 const navItems = [
@@ -23,59 +24,145 @@ const navItems = [
   { label: "Maintenance", href: "/maintenance", icon: Wrench },
   { label: "Fuel & Expenses", href: "/fuel-expenses", icon: Fuel },
   { label: "Analytics", href: "/reports", icon: BarChart3 },
+];
+
+const bottomItems = [
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
+const sidebarVariants = {
+  hidden: { x: -60, opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const navItemVariants = {
+  hidden: { x: -20, opacity: 0 },
+  visible: { x: 0, opacity: 1, transition: { duration: 0.3 } },
+};
+
 export function Sidebar() {
   const pathname = usePathname();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
 
   return (
-    <aside className={cn(
-      "fixed left-0 top-0 h-full w-60 flex flex-col z-50 shadow-xl transition-colors",
-      isDark ? "bg-[#141420]" : "bg-[#1E3A5F]"
-    )}>
-      <div className={cn("p-6 border-b transition-colors", isDark ? "border-white/5" : "border-white/10")}>
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-md">
-            <Truck className="w-5 h-5 text-[#1E3A5F]" />
-          </div>
+    <motion.aside
+      className="fixed left-0 top-0 h-full w-64 flex flex-col z-50"
+      variants={sidebarVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {/* Glass background */}
+      <div className="absolute inset-0 bg-white/80 dark:bg-slate-950/60 backdrop-blur-2xl border-r border-black/5 dark:border-white/8" />
+
+      {/* Logo */}
+      <div className="relative z-10 p-6 pb-4">
+        <Link href="/dashboard" className="flex items-center gap-3 group cursor-pointer">
+          <motion.div
+            className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/25"
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
+          >
+            <Zap className="w-5 h-5 text-white" />
+          </motion.div>
           <div>
-            <span className="text-lg font-bold text-white tracking-tight">TransitOps</span>
-            <p className={cn("text-[10px] tracking-wide", isDark ? "text-slate-400" : "text-blue-200")}>Smart Transport</p>
+            <span className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">TransitOps</span>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 tracking-wide uppercase">Smart Transport</p>
           </div>
-        </div>
+        </Link>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-0.5">
+      {/* Main Navigation */}
+      <motion.nav
+        className="relative z-10 flex-1 px-3 py-2 space-y-1"
+        variants={sidebarVariants}
+      >
         {navItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "flex items-center gap-3 px-4 py-2.5 rounded-xl text-[14px] font-medium transition-all duration-200",
-                isActive
-                  ? "bg-white/15 text-white shadow-sm"
-                  : isDark
-                    ? "text-slate-300 hover:text-white hover:bg-white/5"
-                    : "text-blue-100/80 hover:text-white hover:bg-white/8"
-              )}
-            >
-              <item.icon className="w-[18px] h-[18px]" />
-              {item.label}
-            </Link>
+            <motion.div key={item.href} variants={navItemVariants}>
+              <Link
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group relative cursor-pointer",
+                  isActive
+                    ? "bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 shadow-sm"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-white/5"
+                )}
+              >
+                {isActive && (
+                  <motion.div
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-500 rounded-r-full"
+                    layoutId="activeNav"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                >
+                  <item.icon className={cn(
+                    "w-[18px] h-[18px] transition-colors",
+                    isActive ? "text-emerald-500 dark:text-emerald-400" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300"
+                  )} />
+                </motion.div>
+                {item.label}
+                {isActive && (
+                  <motion.div
+                    className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  />
+                )}
+              </Link>
+            </motion.div>
           );
         })}
-      </nav>
+      </motion.nav>
 
-      <div className={cn("p-4 mx-3 mb-3 rounded-xl transition-colors", isDark ? "bg-white/5" : "bg-white/8")}>
-        <p className={cn("text-xs text-center", isDark ? "text-slate-500" : "text-blue-200/80")}>
-          TransitOps &copy; 2026
-        </p>
+      {/* Bottom Section */}
+      <div className="relative z-10 px-3 pb-3 space-y-1">
+        {bottomItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <motion.div key={item.href} variants={navItemVariants}>
+              <Link
+                href={item.href}
+                className={cn(
+                  "flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer",
+                  isActive
+                    ? "bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-white/5"
+                )}
+              >
+                <item.icon className="w-[18px] h-[18px]" />
+                {item.label}
+              </Link>
+            </motion.div>
+          );
+        })}
+
+        {/* Version badge */}
+        <motion.div
+          className="mx-4 py-3 border-t border-black/5 dark:border-white/5"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <p className="text-[10px] text-slate-400 dark:text-slate-600 text-center">
+            TransitOps v1.0
+          </p>
+        </motion.div>
       </div>
-    </aside>
+    </motion.aside>
   );
 }

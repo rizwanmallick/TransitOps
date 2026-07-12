@@ -24,9 +24,10 @@ export default async function TripsPage() {
   ]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Trip Dispatcher</h1>
+    <div className="space-y-6 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Trip Dispatcher</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Create and manage trips</p>
       </div>
       <TripDataTable trips={trips} vehicles={vehicles} drivers={drivers} />
     </div>

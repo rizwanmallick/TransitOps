@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,22 +10,22 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface RevenueChartProps {
-  data: { month: string; revenue: number }[];
+interface FuelEfficiencyTrendProps {
+  data: { month: string; efficiency: number }[];
 }
 
-export function RevenueChart({ data }: RevenueChartProps) {
+export function FuelEfficiencyTrend({ data }: FuelEfficiencyTrendProps) {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-slate-400 dark:text-slate-500 text-sm">
-        No revenue data available
+        No fuel efficiency data available
       </div>
     );
   }
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
+      <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
         <XAxis dataKey="month" stroke="#94A3B8" fontSize={12} />
         <YAxis stroke="#94A3B8" fontSize={12} />
@@ -38,10 +38,17 @@ export function RevenueChart({ data }: RevenueChartProps) {
             color: "#F8FAFC",
           }}
           labelStyle={{ color: "#F8FAFC" }}
-          itemStyle={{ color: "#22C55E" }}
+          formatter={(value) => [`${value} km/L`, "Efficiency"]}
         />
-        <Bar dataKey="revenue" fill="#22C55E" radius={[6, 6, 0, 0]} />
-      </BarChart>
+        <Line
+          type="monotone"
+          dataKey="efficiency"
+          stroke="#06B6D4"
+          strokeWidth={3}
+          dot={{ fill: "#06B6D4", strokeWidth: 2, r: 4 }}
+          activeDot={{ r: 6, fill: "#06B6D4" }}
+        />
+      </LineChart>
     </ResponsiveContainer>
   );
 }

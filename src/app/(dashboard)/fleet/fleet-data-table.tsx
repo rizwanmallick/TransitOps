@@ -11,7 +11,6 @@ import { vehicleColumns } from "./columns";
 import { CreateVehicleDialog } from "./_components/create-vehicle-dialog";
 import { EditVehicleDialog } from "./_components/edit-vehicle-dialog";
 import { deleteVehicle } from "./actions";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -30,8 +29,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
 import type { Vehicle } from "@/generated/prisma";
 
 interface FleetDataTableProps {
@@ -85,54 +85,71 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <motion.div
+      className="space-y-4"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       {/* Filters */}
-      <div className="flex items-center gap-4 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
-          <Input
-            placeholder="Search vehicles..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-          />
+      <motion.div
+        className="glass-card p-4"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1, duration: 0.4 }}
+      >
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="relative flex-1 min-w-[200px] max-w-md">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
+            <input
+              placeholder="Search vehicles..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 rounded-xl text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all"
+            />
+          </div>
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="px-4 py-2.5 bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 rounded-xl text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all cursor-pointer"
+          >
+            <option value="ALL">Type: All</option>
+            <option value="TRUCK">Truck</option>
+            <option value="VAN">Van</option>
+            <option value="BUS">Bus</option>
+            <option value="MOTORCYCLE">Motorcycle</option>
+            <option value="CONTAINER">Container</option>
+          </select>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="px-4 py-2.5 bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 rounded-xl text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 transition-all cursor-pointer"
+          >
+            <option value="ALL">Status: All</option>
+            <option value="AVAILABLE">Available</option>
+            <option value="ON_TRIP">On Trip</option>
+            <option value="IN_SHOP">In Shop</option>
+            <option value="RETIRED">Retired</option>
+          </select>
+          <CreateVehicleDialog />
         </div>
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value)}
-          className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-2"
-        >
-          <option value="ALL">Type: All</option>
-          <option value="TRUCK">Truck</option>
-          <option value="VAN">Van</option>
-          <option value="BUS">Bus</option>
-          <option value="MOTORCYCLE">Motorcycle</option>
-          <option value="CONTAINER">Container</option>
-        </select>
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-2"
-        >
-          <option value="ALL">Status: All</option>
-          <option value="AVAILABLE">Available</option>
-          <option value="ON_TRIP">On Trip</option>
-          <option value="IN_SHOP">In Shop</option>
-          <option value="RETIRED">Retired</option>
-        </select>
-        <CreateVehicleDialog />
-      </div>
+      </motion.div>
 
       {/* Table */}
-      <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg overflow-hidden">
+      <motion.div
+        className="glass-card overflow-hidden"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+      >
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
-              <TableRow key={hg.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-transparent">
+              <TableRow key={hg.id} className="border-black/5 dark:border-white/5 hover:bg-transparent">
                 {hg.headers.map((h) => (
                   <TableHead
                     key={h.id}
-                    className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium"
+                    className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider"
                   >
                     {flexRender(h.column.columnDef.header, h.getContext())}
                   </TableHead>
@@ -142,7 +159,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-slate-50 dark:hover:bg-white/5">
+              <TableRow key={row.id} className="border-black/5 dark:border-white/5 hover:bg-white/50 dark:hover:bg-white/3 transition-colors">
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -154,7 +171,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={vehicleColumns.length}
-                  className="text-center py-8 text-slate-400 dark:text-slate-500"
+                  className="text-center py-12 text-slate-400 dark:text-slate-500"
                 >
                   No vehicles found
                 </TableCell>
@@ -162,12 +179,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
             )}
           </TableBody>
         </Table>
-      </div>
-
-      <p className="text-xs text-slate-400 dark:text-slate-500">
-        Auto Registration via API via owner &mdash; Maintenance Log entries are linked from Trip
-        Dispatcher
-      </p>
+      </motion.div>
 
       {/* Edit Dialog */}
       {editVehicle && (
@@ -180,26 +192,26 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
+        <AlertDialogContent className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-black/5 dark:border-white/10 shadow-2xl rounded-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-slate-800 dark:text-white">Delete Vehicle</AlertDialogTitle>
-            <AlertDialogDescription className="text-slate-400 dark:text-slate-500">
+            <AlertDialogTitle className="text-slate-900 dark:text-white">Delete Vehicle</AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-500 dark:text-slate-400">
               Are you sure you want to delete this vehicle? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-slate-100 border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 hover:bg-slate-200">
+            <AlertDialogCancel className="bg-slate-100 dark:bg-white/5 border border-black/5 dark:border-white/8 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 rounded-xl cursor-pointer">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-500 hover:bg-red-600 text-white"
+              className="bg-red-500 hover:bg-red-600 text-white rounded-xl"
             >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </div>
+    </motion.div>
   );
 }
