@@ -1,0 +1,223 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== ENUMS ====================
+
+enum UserRole {
+  ADMIN
+  FLEET_MANAGER
+  DISPATCHER
+  SAFETY_OFFICER
+  FINANCIAL_ANALYST
+}
+
+enum VehicleType {
+  TRUCK
+  VAN
+  BUS
+  MOTORCYCLE
+  CONTAINER
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  ON_TRIP
+  IN_SHOP
+  RETIRED
+}
+
+enum DriverStatus {
+  AVAILABLE
+  ON_TRIP
+  OFF_DUTY
+  SUSPENDED
+}
+
+enum TripStatus {
+  DRAFT
+  DISPATCHED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum MaintenanceType {
+  OIL_CHANGE
+  TIRE_ROTATION
+  ENGINE_REPAIR
+  BRAKE_SERVICE
+  INSPECTION
+  OTHER
+}
+
+enum MaintenanceStatus {
+  ACTIVE
+  COMPLETED
+}
+
+enum ExpenseCategory {
+  FUEL
+  TOLL
+  MAINTENANCE
+  INSURANCE
+  PARKING
+  OTHER
+}
+
+// ==================== MODELS ====================
+
+model User {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  emailVerified  DateTime?
+  hashedPassword String?
+  role           UserRole  @default(FLEET_MANAGER)
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Vehicle {
+  id                 String        @id @default(cuid())
+  registrationNumber String        @unique
+  name               String
+  model              String
+  type               VehicleType   @default(TRUCK)
+  yearOfManufacture  Int           @default(2024)
+  maxLoadCapacity    Float
+  odometer           Float         @default(0)
+  acquisitionCost    Float
+  status             VehicleStatus @default(AVAILABLE)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  trips           Trip[]
+  maintenanceLogs MaintenanceLog[]
+  fuelLogs        FuelLog[]
+  expenses        Expense[]
+}
+
+model Driver {
+  id              String       @id @default(cuid())
+  name            String
+  licenseNumber   String       @unique
+  licenseCategory String
+  licenseExpiry   DateTime
+  contactNumber   String
+  safetyScore     Float        @default(100)
+  status          DriverStatus @default(AVAILABLE)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  trips Trip[]
+}
+
+model Trip {
+  id              String     @id @default(cuid())
+  source          String
+  destination     String
+  cargoWeight     Float
+  plannedDistance Float
+  actualDistance  Float?
+  fuelConsumed    Float?
+  status          TripStatus @default(DRAFT)
+  vehicleId       String?
+  driverId        String?
+  dispatchedAt    DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  vehicle  Vehicle? @relation(fields: [vehicleId], references: [id])
+  driver   Driver?  @relation(fields: [driverId], references: [id])
+  fuelLogs FuelLog[]
+  expenses Expense[]
+}
+
+model MaintenanceLog {
+  id          String            @id @default(cuid())
+  vehicleId   String
+  serviceType MaintenanceType
+  description String?
+  mileage     Float?
+  cost        Float
+  status      MaintenanceStatus @default(ACTIVE)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+}
+
+model FuelLog {
+  id        String   @id @default(cuid())
+  vehicleId String
+  tripId    String?
+  liters    Float
+  cost      Float
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  trip    Trip?   @relation(fields: [tripId], references: [id])
+}
+
+model Expense {
+  id          String          @id @default(cuid())
+  vehicleId   String
+  tripId      String?
+  category    ExpenseCategory
+  description String?
+  amount      Float
+  date        DateTime        @default(now())
+  createdAt   DateTime        @default(now())
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  trip    Trip?   @relation(fields: [tripId], references: [id])
+}

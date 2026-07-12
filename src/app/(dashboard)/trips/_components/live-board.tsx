@@ -1,0 +1,178 @@
+"use client";
+
+import { StatusBadge } from "@/components/shared/status-badge";
+import { Button } from "@/components/ui/button";
+import { dispatchTrip, completeTrip, cancelTrip } from "../actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import type { Trip, Vehicle, Driver } from "@/generated/prisma";
+
+type TripWithRelations = Trip & {
+  vehicle: Vehicle | null;
+  driver: Driver | null;
+};
+
+interface LiveBoardProps {
+  trips: TripWithRelations[];
+}
+
+export function LiveBoard({ trips }: LiveBoardProps) {
+  const router = useRouter();
+  const [completeDialogTrip, setCompleteDialogTrip] = useState<TripWithRelations | null>(null);
+  const [actualDistance, setActualDistance] = useState(0);
+  const [fuelConsumed, setFuelConsumed] = useState(0);
+
+  async function handleDispatch(tripId: string) {
+    const result = await dispatchTrip(tripId);
+    if (result.success) {
+      toast.success("Trip dispatched!");
+      router.refresh();
+    } else {
+      toast.error(result.error || "Failed to dispatch");
+    }
+  }
+
+  async function handleComplete() {
+    if (!completeDialogTrip) return;
+    const result = await completeTrip(completeDialogTrip.id, { actualDistance, fuelConsumed });
+    if (result.success) {
+      toast.success("Trip completed!");
+      setCompleteDialogTrip(null);
+      router.refresh();
+    } else {
+      toast.error(result.error || "Failed to complete");
+    }
+  }
+
+  async function handleCancel(tripId: string) {
+    const result = await cancelTrip(tripId);
+    if (result.success) {
+      toast.success("Trip cancelled");
+      router.refresh();
+    } else {
+      toast.error(result.error || "Failed to cancel");
+    }
+  }
+
+  const activeTrips = trips.filter(
+    (t) => t.status === "DISPATCHED" || t.status === "IN_PROGRESS" || t.status === "DRAFT"
+  );
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+        Live Board
+      </h3>
+
+      {activeTrips.length === 0 ? (
+        <p className="text-gray-500 text-sm py-4">No active trips</p>
+      ) : (
+        activeTrips.map((trip, i) => (
+          <div
+            key={trip.id}
+            className="bg-[#1E1E30] border border-[#2A2A3E] rounded-lg p-3 space-y-2"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-medium text-white">
+                TR{String(i + 1).padStart(3, "0")}
+              </span>
+              <StatusBadge status={trip.status} />
+            </div>
+            <p className="text-sm text-gray-300">
+              {trip.source} → {trip.destination}
+            </p>
+            <p className="text-xs text-gray-400">
+              {trip.vehicle?.name || "No vehicle"} / {trip.driver?.name || "No driver"}
+            </p>
+            {trip.status === "DRAFT" && (
+              <div className="flex gap-2 pt-1">
+                <Button
+                  size="sm"
+                  className="bg-orange-500 hover:bg-orange-600 text-white text-xs"
+                  onClick={() => handleDispatch(trip.id)}
+                >
+                  Dispatch
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-[#2A2A3E] text-gray-300 text-xs"
+                  onClick={() => handleCancel(trip.id)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
+            {(trip.status === "DISPATCHED" || trip.status === "IN_PROGRESS") && (
+              <div className="flex gap-2 pt-1">
+                <Button
+                  size="sm"
+                  className="bg-green-500 hover:bg-green-600 text-white text-xs"
+                  onClick={() => {
+                    setCompleteDialogTrip(trip);
+                    setActualDistance(trip.plannedDistance);
+                    setFuelConsumed(0);
+                  }}
+                >
+                  Complete
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-[#2A2A3E] text-gray-300 text-xs"
+                  onClick={() => handleCancel(trip.id)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            )}
+          </div>
+        ))
+      )}
+
+      {/* Complete Trip Dialog */}
+      <Dialog open={!!completeDialogTrip} onOpenChange={() => setCompleteDialogTrip(null)}>
+        <DialogContent className="bg-[#1A1A2E] border-[#2A2A3E]">
+          <DialogHeader>
+            <DialogTitle className="text-white">Complete Trip</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-gray-300">Actual Distance (km)</Label>
+              <Input
+                type="number"
+                value={actualDistance}
+                onChange={(e) => setActualDistance(parseFloat(e.target.value) || 0)}
+                className="bg-[#1E1E30] border-[#2A2A3E] text-white mt-1"
+              />
+            </div>
+            <div>
+              <Label className="text-gray-300">Fuel Consumed (liters)</Label>
+              <Input
+                type="number"
+                value={fuelConsumed}
+                onChange={(e) => setFuelConsumed(parseFloat(e.target.value) || 0)}
+                className="bg-[#1E1E30] border-[#2A2A3E] text-white mt-1"
+              />
+            </div>
+            <Button
+              className="w-full bg-green-500 hover:bg-green-600 text-white"
+              onClick={handleComplete}
+            >
+              Complete Trip
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
