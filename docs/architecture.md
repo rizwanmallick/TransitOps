@@ -7,7 +7,7 @@ TransitOps is a full-stack web application built for managing transport operatio
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    CLIENT (Browser)                  │
-│  React Components + shadcn/ui + Recharts            │
+│  React + Framer Motion + shadcn/ui + Recharts       │
 └──────────────────────┬──────────────────────────────┘
                        │ HTTP / Server Actions
 ┌──────────────────────▼──────────────────────────────┐
@@ -46,6 +46,7 @@ TransitOps is a full-stack web application built for managing transport operatio
 | Auth | NextAuth v5 | Authentication & session management |
 | UI Library | shadcn/ui | Pre-built accessible components |
 | Styling | Tailwind CSS 4 | Utility-first CSS framework |
+| Animations | Framer Motion | React animation library |
 | Charts | Recharts | Data visualization |
 | Tables | TanStack React Table | Feature-rich data tables |
 | Forms | React Hook Form + Zod | Form handling & validation |
@@ -62,27 +63,28 @@ TransitOps/
 │   │   │   ├── _components/       # Login form component
 │   │   │   └── login/page.tsx     # Login page
 │   │   ├── (dashboard)/           # Dashboard route group (protected)
-│   │   │   ├── layout.tsx         # Sidebar + header layout
+│   │   │   ├── layout.tsx         # Sidebar + header + page transitions
 │   │   │   ├── dashboard/         # KPIs & overview
 │   │   │   ├── fleet/             # Vehicle registry
 │   │   │   ├── drivers/           # Driver management
 │   │   │   ├── trips/             # Trip dispatcher
 │   │   │   ├── maintenance/       # Service records
 │   │   │   ├── fuel-expenses/     # Fuel & expense tracking
-│   │   │   ├── reports/           # Analytics & CSV export
+│   │   │   ├── reports/           # Analytics & CSV export (8 charts)
 │   │   │   └── settings/          # RBAC & config
 │   │   ├── api/
 │   │   │   ├── auth/[...nextauth]/ # NextAuth API routes
 │   │   │   └── seed/route.ts      # Database seed endpoint
 │   │   ├── layout.tsx             # Root layout (dark theme)
 │   │   ├── page.tsx               # Root redirect
-│   │   └── globals.css            # Tailwind + custom theme
+│   │   └── globals.css            # Tailwind + glassmorphism theme
 │   ├── components/
 │   │   ├── ui/                    # shadcn/ui components (16)
-│   │   ├── layout/                # Sidebar, header, KPI card
-│   │   ├── shared/                # Status badge, etc.
+│   │   ├── layout/                # Sidebar, header, KPI card, page transitions
+│   │   ├── shared/                # Status badge, animated wrappers
 │   │   └── providers.tsx          # SessionProvider wrapper
 │   ├── lib/
+│   │   ├── animations.ts          # Framer Motion variants
 │   │   ├── auth.ts                # NextAuth v5 configuration
 │   │   ├── auth-utils.ts          # requireAuth(), requireRole()
 │   │   ├── db.ts                  # Prisma singleton
@@ -191,22 +193,33 @@ Trip (1) ──── (N) Expense
 ### Component Hierarchy
 ```
 RootLayout (SessionProvider + Toaster)
-  └── DashboardLayout (Providers + Sidebar + Header)
-        ├── Sidebar (navigation, role-based menu items)
-        ├── Header (search + user avatar)
+  └── DashboardLayout (Providers + Sidebar + Header + PageTransitions)
+        ├── Sidebar (navigation, role-based menu items, stagger animations)
+        ├── Header (search + user avatar + theme toggle)
+        ├── PageTransitionWrapper (AnimatePresence for route changes)
         └── Main Content (page-specific)
-              ├── KpiCard (reusable stat card)
-              ├── StatusBadge (colored status indicator)
-              ├── DataTable (TanStack + shadcn Table)
+              ├── KpiCard (animated stat card with hover effects)
+              ├── StatusBadge (spring-animated status indicator)
+              ├── DataTable (TanStack + shadcn Table + stagger animations)
               ├── Dialog (create/edit forms)
-              └── Charts (Recharts)
+              └── Charts (Recharts with glassmorphic tooltips)
 ```
 
 ### Design System
-- **Dark theme** as default (near-black backgrounds)
-- **Orange/Amber** accent (#F59E0B) for buttons, active states
-- **Status badges**: Green=Available, Blue=On Trip, Purple=Dispatched, Red=Error, Gray=Inactive
-- **Indian locale**: INR currency, Indian number formatting (4,00,000)
+- **Glassmorphism** - Frosted glass cards with backdrop-blur-2xl
+- **Dark Theme** - Near-black backgrounds with mesh gradients
+- **Emerald Accent** - #22C55E for buttons, active states, highlights
+- **Status Badges**: Green=Available, Blue=On Trip, Purple=Dispatched, Red=Error, Gray=Inactive
+- **Indian Locale**: INR currency, Indian number formatting (4,00,000)
+- **Custom Fonts**: Poppins (headings) + Inter (body)
+- **Framer Motion**: Page transitions, stagger animations, hover effects, spring physics
+
+### Animation System
+```
+src/lib/animations.ts          # Shared variants (fadeIn, stagger, spring, pulse)
+src/components/shared/animated.tsx  # Reusable animated wrappers
+src/components/layout/page-transition.tsx  # Route-level AnimatePresence
+```
 
 ## 8. Security Considerations
 
@@ -228,6 +241,7 @@ RootLayout (SessionProvider + Toaster)
 - **Static Pages**: Login, root redirect pre-rendered
 - **Dynamic Pages**: Dashboard, fleet, etc. server-rendered on demand
 - **Lazy Loading**: Client components only loaded when needed
+- **Framer Motion**: Optimized animations with hardware acceleration
 - **Image Optimization**: Next.js built-in (not yet implemented)
 
 ## 10. Scalability Considerations
@@ -256,10 +270,8 @@ RootLayout (SessionProvider + Toaster)
 1. PDF export for reports
 2. Email reminders for expiring licenses
 3. Vehicle document management (upload/view)
-4. Dark/light mode toggle
-5. Real-time trip tracking (WebSocket)
-6. Multi-language support (i18n)
-7. Mobile responsive design
-8. API rate limiting
-9. Audit logging
-10. Dashboard widgets customization
+4. Real-time trip tracking (WebSocket)
+5. Mobile responsive design
+6. API rate limiting
+7. Audit logging
+8. Dashboard widgets customization

@@ -10,9 +10,11 @@ An end-to-end transport operations platform built for the **Odoo Hackathon 2026*
 | Language | TypeScript |
 | Database | PostgreSQL + Prisma 6 ORM |
 | Auth | NextAuth v5 (JWT + Credentials) |
-| UI | Tailwind CSS + shadcn/ui |
+| UI | Tailwind CSS 4 + shadcn/ui |
+| Animations | Framer Motion |
 | Charts | Recharts |
 | Tables | TanStack React Table |
+| Forms | React Hook Form + Zod |
 
 ## Features
 
@@ -23,8 +25,9 @@ An end-to-end transport operations platform built for the **Odoo Hackathon 2026*
 - **Trip Dispatcher** - Create/Dispatch/Complete/Cancel with all business rules enforced
 - **Maintenance** - Service records, automatic vehicle status transitions
 - **Fuel & Expense Tracking** - Fuel logs, other expenses, total operational cost
-- **Reports & Analytics** - Charts, KPIs, CSV export
+- **Reports & Analytics** - 8 interactive charts, KPIs, CSV export
 - **Settings** - RBAC matrix, general config
+- **Modern UI/UX** - Glassmorphism design, Framer Motion animations, dark mode
 
 ## Prerequisites
 
@@ -118,6 +121,30 @@ Open **http://localhost:3000** in your browser.
 | Safety Officer | Dashboard, Drivers, Trips |
 | Financial Analyst | Dashboard, Fuel & Expenses, Reports |
 
+## Analytics Dashboard
+
+The Reports & Analytics page includes 8 interactive charts:
+
+| Chart | Type | Description |
+|-------|------|-------------|
+| Monthly Revenue | Bar | Revenue trend over time |
+| Top Costliest Vehicles | Horizontal Bar | Vehicles with highest operational cost |
+| Fuel Efficiency Trend | Line | Monthly average km/L from completed trips |
+| Monthly Fuel Costs | Area | Total fuel expenditure per month |
+| Driver Safety Scores | Bar (color-coded) | Individual driver safety ratings |
+| Trip Status Distribution | Donut | Trips by status (completed, dispatched, etc.) |
+| Maintenance by Type | Donut | Cost breakdown by service category |
+| Expense Categories | Donut | Total expenses by category |
+| Fleet Age Distribution | Bar (color-coded) | Vehicles grouped by age |
+
+## UI/UX Design
+
+- **Glassmorphism** - Frosted glass cards with backdrop-blur effects
+- **Mesh Gradients** - Subtle gradient backgrounds
+- **Framer Motion** - Smooth page transitions, stagger animations, hover effects
+- **Dark Mode** - Default dark theme with emerald (#22C55E) accent
+- **Custom Fonts** - Poppins (headings) + Inter (body)
+
 ## Testing the Business Rules
 
 ### Rule 1: Vehicle Registration is Unique
@@ -164,6 +191,17 @@ Open **http://localhost:3000** in your browser.
 5. Return to Maintenance, click "Complete"
 6. **Expected**: Vehicle returns to "Available"
 
+## Seed Data
+
+The database is seeded with richer data for meaningful analytics:
+- 5 Users (all roles)
+- 12 Vehicles (various types and statuses)
+- 8 Drivers (various statuses, safety scores)
+- 16 Trips (all statuses, spread across multiple months)
+- 12 Maintenance Logs (various service types)
+- 16 Fuel Logs (spread across months)
+- 17 Expenses (tolls, parking, insurance, maintenance)
+
 ## Useful Commands
 
 ```cmd
@@ -203,40 +241,26 @@ TransitOps/
 │   │   │   ├── trips/          # Trip dispatcher
 │   │   │   ├── maintenance/    # Service records
 │   │   │   ├── fuel-expenses/  # Fuel + expenses
-│   │   │   ├── reports/        # Analytics + CSV export
+│   │   │   ├── reports/        # Analytics + CSV export (8 charts)
 │   │   │   └── settings/       # RBAC + config
 │   │   └── api/
 │   │       ├── auth/           # NextAuth routes
 │   │       └── seed/           # Database seed API
-│   ├── components/             # Shared UI components
-│   ├── lib/                    # Auth, DB, validations
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── layout/             # Sidebar, header, KPI card, page transitions
+│   │   ├── shared/             # Status badge, animated wrappers
+│   │   └── providers.tsx       # SessionProvider wrapper
+│   ├── lib/
+│   │   ├── animations.ts       # Framer Motion variants
+│   │   ├── auth.ts             # NextAuth v5 configuration
+│   │   ├── auth-utils.ts       # requireAuth(), requireRole()
+│   │   ├── db.ts               # Prisma singleton
+│   │   ├── utils.ts            # cn(), helpers
+│   │   └── validations/        # Zod schemas
 │   └── generated/prisma/       # Prisma client (auto-generated)
 ├── .env                        # Environment variables
 └── package.json
-```
-
-## Troubleshooting
-
-### "Module not found" errors
-```cmd
-npm install
-```
-
-### Database connection refused
-- Make sure PostgreSQL is running: `pg_isready -h localhost -p 5432`
-- Check your `.env` file has correct password
-
-### Port 3000 already in use
-```cmd
-:: Find and kill the process
-netstat -ano | findstr :3000
-taskkill /PID <PID_NUMBER> /F
-```
-
-### Seed script fails
-Make sure you have `.env` file with correct `DATABASE_URL`, then:
-```cmd
-npx tsx --tsconfig tsconfig.json src/seed.ts
 ```
 
 ## License

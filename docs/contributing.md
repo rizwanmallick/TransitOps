@@ -81,14 +81,16 @@ npm run dev
 - Keep components small and focused
 - Co-locate related files in `_components/` folders
 - Use Server Components by default, add `"use client"` only when needed
+- For animations, import from `framer-motion` and use variants from `@/lib/animations`
 
 ### File Naming
 ```
 components/
   ui/           # shadcn/ui components
-  layout/       # Layout components (sidebar, header)
-  shared/       # Shared components (status-badge, etc.)
+  layout/       # Layout components (sidebar, header, page transitions)
+  shared/       # Shared components (status-badge, animated wrappers)
 lib/
+  animations.ts # Framer Motion variants
   validations/  # Zod schemas
 app/
   (dashboard)/  # Route groups
@@ -101,9 +103,18 @@ app/
 
 ### CSS/Tailwind
 - Use Tailwind utility classes
-- Follow the dark theme color palette
+- Follow the glassmorphism design system
 - Use `cn()` utility for conditional classes
-- Reference colors: `#0F0F17` (bg), `#1A1A2E` (card), `#F59E0B` (accent)
+- Reference colors: `#0F0F17` (bg), `#22C55E` (accent), emerald/cyan gradients
+- Glass classes: `.glass-card`, `.glass-card-hover`, `.glow-green`, `.gradient-text`
+
+### Animations
+- Use Framer Motion for all animations
+- Import variants from `@/lib/animations`
+- Use `motion` components instead of plain divs
+- Add `"use client"` directive to animated components
+- Use spring physics for interactive elements
+- Use stagger animations for lists
 
 ---
 
@@ -181,6 +192,7 @@ Brief description of changes
 - [ ] TypeScript compiles without errors
 - [ ] All pages load correctly
 - [ ] New functionality works as expected
+- [ ] Animations work correctly
 
 ## Screenshots (if applicable)
 Add screenshots of UI changes
@@ -191,6 +203,7 @@ Add screenshots of UI changes
 - [ ] Comments added for complex code
 - [ ] Documentation updated
 - [ ] No new TypeScript errors
+- [ ] Framer Motion animations included (if applicable)
 ```
 
 ---
@@ -204,6 +217,12 @@ Add screenshots of UI changes
 4. Add `columns.tsx` if using a data table
 5. Add `_components/` for page-specific components
 6. Update sidebar navigation in `components/layout/sidebar.tsx`
+
+### Adding Animations to a Page
+1. Import `motion` from `framer-motion`
+2. Import variants from `@/lib/animations`
+3. Wrap elements with `motion.div` or use animated wrappers
+4. Add `"use client"` directive if not already present
 
 ### Adding a New Business Rule
 1. Add validation in the relevant `actions.ts` file
@@ -255,4 +274,4 @@ If you have questions, feel free to:
 
 ---
 
-Thank you for contributing to TransitOps! 🚛
+Thank you for contributing to TransitOps!

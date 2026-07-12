@@ -229,6 +229,13 @@ Returns aggregated data for the reports page.
   onTimeRate: string;               // Percentage
   monthlyRevenue: { month: string; revenue: number }[];
   topCostlyVehicles: { name: string; cost: number }[];
+  driverSafetyData: { name: string; score: number; status: string }[];
+  tripStatusData: { name: string; value: number }[];
+  fuelEfficiencyTrend: { month: string; efficiency: number }[];
+  maintenanceCostData: { name: string; value: number }[];
+  fleetAgeData: { name: string; count: number }[];
+  expenseBreakdownData: { name: string; value: number }[];
+  monthlyFuelCostTrend: { month: string; cost: number }[];
 }
 ```
 
@@ -274,6 +281,28 @@ export default async function FleetPage() {
   return <FleetDataTable data={vehicles} />;
 }
 ```
+
+---
+
+## Animation System
+
+The application uses Framer Motion for animations:
+
+### Shared Variants (`src/lib/animations.ts`)
+- `fadeIn`, `fadeInUp`, `fadeInDown`, `fadeInLeft`, `fadeInRight`
+- `scaleIn`, `slideInFromLeft`, `slideInFromRight`
+- `staggerContainer`, `staggerItem`
+- `cardHover`, `pulse`, `shimmer`, `springPop`
+
+### Animated Wrappers (`src/components/shared/animated.tsx`)
+- `PageTransition` - Fade in wrapper
+- `FadeInUp` - Slide up animation
+- `StaggerList` - Container with staggered children
+- `StaggerItem` - Individual staggered item
+- `HoverCard` - Card with hover/tap effects
+
+### Page Transitions (`src/components/layout/page-transition.tsx`)
+- Route-level AnimatePresence for smooth page changes
 
 ---
 

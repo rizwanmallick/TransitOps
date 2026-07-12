@@ -57,8 +57,6 @@ yarn-error.log*
 *.cert
 .vercel
 .vercel.json
-AGENTS.md
-CLAUDE.md
 .opencode
 
 # Vercel

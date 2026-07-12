@@ -35,8 +35,9 @@ TransitOps addresses these challenges with a centralized platform that provides:
 | Trip Dispatcher | Automated scheduling with business rule enforcement |
 | Maintenance Tracking | Proactive maintenance with automatic status updates |
 | Fuel & Expense Logs | Accurate cost tracking per vehicle |
-| Analytics Dashboard | Real-time KPIs and operational insights |
+| Analytics Dashboard | Real-time KPIs and operational insights (8 charts) |
 | RBAC | Role-based access for different user types |
+| Modern UI/UX | Glassmorphism design with Framer Motion animations |
 
 ---
 
@@ -44,7 +45,7 @@ TransitOps addresses these challenges with a centralized platform that provides:
 
 ### Tech Stack
 - **Frontend**: Next.js 16 (App Router), React 19, TypeScript
-- **UI**: Tailwind CSS 4, shadcn/ui, Recharts
+- **UI**: Tailwind CSS 4, shadcn/ui, Recharts, Framer Motion
 - **Backend**: Next.js Server Actions, Prisma 6 ORM
 - **Database**: PostgreSQL 18
 - **Auth**: NextAuth v5 (JWT + Credentials)
@@ -110,14 +111,36 @@ Monolithic full-stack application with server-side rendering (SSR) and server ac
 
 ### 4.8 Reports & Analytics
 - KPI cards: Fuel Efficiency, Fleet Utilization, Operational Cost, On-Time Rate
-- Monthly Revenue bar chart (Recharts)
-- Top Costliest Vehicles horizontal bar chart
+- **8 Interactive Charts**:
+  1. Monthly Revenue bar chart
+  2. Top Costliest Vehicles horizontal bar chart
+  3. Fuel Efficiency Trend line chart
+  4. Monthly Fuel Costs area chart
+  5. Driver Safety Scores bar chart (color-coded)
+  6. Trip Status Distribution donut chart
+  7. Maintenance by Type donut chart
+  8. Expense Categories donut chart
+  9. Fleet Age Distribution bar chart
 - CSV export for: Vehicles, Trips, Fuel Logs, Expenses
 
 ### 4.9 Settings
 - General settings (Company name, Currency, Timezone)
 - RBAC access matrix display
 - Save changes functionality
+
+### 4.10 Modern UI/UX Design
+- **Glassmorphism** - Frosted glass cards with backdrop-blur effects
+- **Mesh Gradients** - Subtle gradient backgrounds
+- **Framer Motion Animations**:
+  - Page transitions with AnimatePresence
+  - Stagger animations for lists and cards
+  - Hover effects with spring physics
+  - Login page floating orbs
+  - Sidebar navigation animations
+  - KPI card entrance animations
+  - Data table row animations
+- **Dark Mode** - Default dark theme with emerald accent
+- **Custom Fonts** - Poppins (headings) + Inter (body)
 
 ---
 
@@ -146,22 +169,31 @@ Monolithic full-stack application with server-side rendering (SSR) and server ac
 
 ### Seed Data
 - 5 Users (all roles)
-- 8 Vehicles (various types and statuses)
-- 6 Drivers (various statuses, license expiries)
-- 6 Trips (all statuses)
-- 5 Maintenance Logs
-- 5 Fuel Logs
-- 5 Expenses
+- 12 Vehicles (various types and statuses)
+- 8 Drivers (various statuses, safety scores, license expiries)
+- 16 Trips (all statuses, spread across multiple months)
+- 12 Maintenance Logs (various service types)
+- 16 Fuel Logs (spread across months for trend analysis)
+- 17 Expenses (tolls, parking, insurance, maintenance)
 
 ---
 
 ## 7. UI/UX Design
 
 ### Design Language
-- **Theme**: Dark mode (near-black background #0F0F17)
-- **Accent**: Orange/Amber (#F59E0B)
-- **Typography**: Inter (sans-serif)
-- **Cards**: Dark gray (#1A1A2E) with subtle borders
+- **Theme**: Glassmorphism with dark mode (near-black background #0F0F17)
+- **Accent**: Emerald (#22C55E) for buttons, active states
+- **Typography**: Poppins (headings) + Inter (body)
+- **Cards**: Frosted glass with backdrop-blur-2xl
+- **Backgrounds**: Mesh gradients with floating orbs
+
+### Animation System
+- **Framer Motion** for all animations
+- Page transitions with AnimatePresence
+- Stagger animations for lists and cards
+- Spring physics for hover effects
+- Floating orb animations on login page
+- Sidebar navigation with active indicator spring
 
 ### Status Badge Colors
 | Color | Meaning |
@@ -173,7 +205,7 @@ Monolithic full-stack application with server-side rendering (SSR) and server ac
 | Gray | Off Duty, Retired, Pending |
 
 ### Responsive Design
-- Fixed sidebar (160px) on desktop
+- Fixed sidebar (256px) on desktop
 - Scrollable main content area
 - Responsive grid layouts for cards and tables
 
@@ -200,6 +232,8 @@ Monolithic full-stack application with server-side rendering (SSR) and server ac
 | Reports data aggregation | Passed |
 | CSV export functionality | Passed |
 | Dashboard KPI accuracy | Passed |
+| Framer Motion animations | Passed |
+| Glassmorphism UI rendering | Passed |
 
 ---
 
@@ -213,6 +247,8 @@ Monolithic full-stack application with server-side rendering (SSR) and server ac
 | TypeScript strict mode errors | Added explicit types throughout codebase |
 | Seed script not finding env vars | Added `dotenv/config` import |
 | Windows path handling | Used proper escaping and PowerShell commands |
+| Framer Motion ease type errors | Used `as const` assertions for easing values |
+| Server Component passing functions to Client | Created client wrapper components for icons |
 
 ---
 
@@ -238,9 +274,10 @@ TransitOps successfully demonstrates a complete transport operations platform bu
 - Enforces all 10 required business rules automatically
 - Provides role-based access for 5 user types
 - Includes full CRUD for vehicles, drivers, trips, maintenance, and expenses
-- Offers real-time dashboard with KPIs and charts
+- Offers real-time dashboard with 8 interactive charts and KPIs
 - Supports CSV export for data analysis
 - Uses a modern tech stack with type safety throughout
+- Features a polished UI with glassmorphism design and Framer Motion animations
 
 The application is production-ready for small to medium logistics companies and can be extended with the future enhancements listed above.
 
@@ -264,3 +301,4 @@ The application is production-ready for small to medium logistics companies and 
 - [shadcn/ui Documentation](https://ui.shadcn.com/)
 - [Recharts Documentation](https://recharts.org/)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Framer Motion Documentation](https://www.framer.com/motion/)
