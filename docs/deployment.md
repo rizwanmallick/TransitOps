@@ -249,6 +249,25 @@ CREATE INDEX idx_trip_status ON "Trip"(status);
 
 ---
 
+## Dependencies
+
+### Production Dependencies
+- next.js 16, react 19, framer-motion
+- prisma 6, @prisma/client
+- next-auth 5, bcryptjs
+- recharts, @tanstack/react-table
+- react-hook-form, zod, @hookform/resolvers
+- sonner (toast notifications)
+- next-themes (dark mode)
+
+### Dev Dependencies
+- typescript, @types/node, @types/react
+- eslint, eslint-config-next
+- tailwindcss 4, postcss, autoprefixer
+- tsx (TypeScript execution)
+
+---
+
 ## Monitoring
 
 ### Health Check Endpoint
@@ -278,3 +297,4 @@ export async function GET() {
 | Port 3000 in use | Kill process or use different port |
 | Build fails | Run `npm run lint` to check for errors |
 | Seed fails | Ensure `.env` has correct `DATABASE_URL` |
+| Framer Motion errors | Ensure `"use client"` directive on animated components |
