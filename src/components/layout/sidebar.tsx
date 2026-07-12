@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
@@ -16,6 +17,16 @@ import {
   Zap,
 } from "lucide-react";
 
+const roleRoutes: Record<string, string[]> = {
+  "/fleet": ["ADMIN", "FLEET_MANAGER"],
+  "/drivers": ["ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER"],
+  "/trips": ["ADMIN", "FLEET_MANAGER", "DISPATCHER"],
+  "/maintenance": ["ADMIN", "FLEET_MANAGER"],
+  "/fuel-expenses": ["ADMIN", "FINANCIAL_ANALYST", "FLEET_MANAGER"],
+  "/reports": ["ADMIN", "FINANCIAL_ANALYST"],
+  "/settings": ["ADMIN"],
+};
+
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Fleet", href: "/fleet", icon: Truck },
@@ -29,6 +40,12 @@ const navItems = [
 const bottomItems = [
   { label: "Settings", href: "/settings", icon: Settings },
 ];
+
+function canAccessRoute(role: string, href: string): boolean {
+  if (href === "/dashboard") return true;
+  const allowed = roleRoutes[href];
+  return allowed ? allowed.includes(role) : true;
+}
 
 const sidebarVariants = {
   hidden: { x: -60, opacity: 0 },
@@ -51,6 +68,11 @@ const navItemVariants = {
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
+  const role = (session?.user as { role?: string })?.role ?? "";
+
+  const filteredNavItems = navItems.filter((item) => canAccessRoute(role, item.href));
+  const filteredBottomItems = bottomItems.filter((item) => canAccessRoute(role, item.href));
 
   return (
     <motion.aside
@@ -85,7 +107,7 @@ export function Sidebar() {
         className="relative z-10 flex-1 px-3 py-2 space-y-1"
         variants={sidebarVariants}
       >
-        {navItems.map((item) => {
+        {filteredNavItems.map((item) => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
           return (
             <motion.div key={item.href} variants={navItemVariants}>
@@ -131,7 +153,7 @@ export function Sidebar() {
 
       {/* Bottom Section */}
       <div className="relative z-10 px-3 pb-3 space-y-1">
-        {bottomItems.map((item) => {
+        {filteredBottomItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <motion.div key={item.href} variants={navItemVariants}>
