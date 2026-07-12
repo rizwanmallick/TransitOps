@@ -35,7 +35,7 @@ export function FuelExpensesDataTable({
       </div>
 
       <Tabs defaultValue="fuel" className="space-y-4">
-        <TabsList className="bg-[#1A1A2E] border border-[#2A2A3E]">
+        <TabsList className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E]">
           <TabsTrigger value="fuel" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
             Fuel Logs
           </TabsTrigger>
@@ -54,11 +54,11 @@ export function FuelExpensesDataTable({
       </Tabs>
 
       {/* Summary */}
-      <div className="bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg p-4 flex items-center justify-between">
-        <span className="text-sm text-gray-400">
+      <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-4 flex items-center justify-between">
+        <span className="text-sm text-slate-400 dark:text-slate-500">
           TOTAL OPERATIONAL COST (FUEL + MAINTENANCE)
         </span>
-        <span className="text-lg font-bold text-orange-500">
+        <span className="text-lg font-bold text-amber-500">
           ₹{totalOperationalCost.toLocaleString("en-IN")}
         </span>
       </div>

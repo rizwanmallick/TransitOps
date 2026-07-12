@@ -45,22 +45,22 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       {/* Filters */}
       <div className="flex items-center gap-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">
+        <span className="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider font-medium">
           Filters
         </span>
-        <select className="bg-[#1E1E30] border border-[#2A2A3E] text-white text-sm rounded-lg px-3 py-1.5">
+        <select className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-1.5">
           <option>Vehicle Type: All</option>
           <option>Truck</option>
           <option>Van</option>
           <option>Bus</option>
         </select>
-        <select className="bg-[#1E1E30] border border-[#2A2A3E] text-white text-sm rounded-lg px-3 py-1.5">
+        <select className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-1.5">
           <option>Status: All</option>
           <option>Available</option>
           <option>On Trip</option>
           <option>In Shop</option>
         </select>
-        <select className="bg-[#1E1E30] border border-[#2A2A3E] text-white text-sm rounded-lg px-3 py-1.5">
+        <select className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-1.5">
           <option>Region: All</option>
           <option>Maharashtra</option>
           <option>Gujarat</option>
@@ -82,38 +82,38 @@ export default async function DashboardPage() {
       {/* Recent Trips & Vehicle Status */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Trips */}
-        <div className="lg:col-span-2 bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg p-5">
-          <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+        <div className="lg:col-span-2 bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-5">
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider mb-4">
             Recent Trips
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#2A2A3E]">
-                  <th className="text-left text-xs text-gray-400 font-medium pb-3 uppercase">
+                <tr className="border-b border-[#E2E8F0] dark:border-b-[#2A2A3E]">
+                  <th className="text-left text-xs text-slate-400 dark:text-slate-500 font-medium pb-3 uppercase">
                     Trip
                   </th>
-                  <th className="text-left text-xs text-gray-400 font-medium pb-3 uppercase">
+                  <th className="text-left text-xs text-slate-400 dark:text-slate-500 font-medium pb-3 uppercase">
                     Vehicle
                   </th>
-                  <th className="text-left text-xs text-gray-400 font-medium pb-3 uppercase">
+                  <th className="text-left text-xs text-slate-400 dark:text-slate-500 font-medium pb-3 uppercase">
                     Route
                   </th>
-                  <th className="text-left text-xs text-gray-400 font-medium pb-3 uppercase">
+                  <th className="text-left text-xs text-slate-400 dark:text-slate-500 font-medium pb-3 uppercase">
                     Status
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#2A2A3E]">
+              <tbody className="divide-y divide-[#E2E8F0] dark:divide-[#2A2A3E]">
                 {recentTrips.map((trip: (typeof recentTrips)[number], i: number) => (
-                  <tr key={trip.id} className="hover:bg-white/5">
-                    <td className="py-3 text-sm text-white font-medium">
+                  <tr key={trip.id} className="hover:bg-slate-50 dark:hover:bg-white/5">
+                    <td className="py-3 text-sm text-slate-800 dark:text-white font-medium">
                       TR{String(i + 1).padStart(3, "0")}
                     </td>
-                    <td className="py-3 text-sm text-gray-300">
+                    <td className="py-3 text-sm text-slate-500 dark:text-slate-400">
                       {trip.vehicle?.name || "—"}
                     </td>
-                    <td className="py-3 text-sm text-gray-300">
+                    <td className="py-3 text-sm text-slate-500 dark:text-slate-400">
                       {trip.source} → {trip.destination}
                     </td>
                     <td className="py-3">
@@ -123,7 +123,7 @@ export default async function DashboardPage() {
                 ))}
                 {recentTrips.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="py-8 text-center text-gray-500 text-sm">
+                    <td colSpan={4} className="py-8 text-center text-slate-400 dark:text-slate-500 text-sm">
                       No trips found
                     </td>
                   </tr>
@@ -134,8 +134,8 @@ export default async function DashboardPage() {
         </div>
 
         {/* Vehicle Status */}
-        <div className="bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg p-5">
-          <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+        <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-5">
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider mb-4">
             Vehicle Status
           </h3>
           <VehicleStatusChart

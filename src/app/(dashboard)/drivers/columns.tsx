@@ -29,21 +29,21 @@ export const driverColumns: ColumnDef<Driver>[] = [
     accessorKey: "name",
     header: "Driver",
     cell: ({ row }) => (
-      <span className="font-medium text-white">{row.original.name}</span>
+      <span className="font-medium text-slate-800 dark:text-white">{row.original.name}</span>
     ),
   },
   {
     accessorKey: "licenseNumber",
     header: "License No.",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.licenseNumber}</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.licenseNumber}</span>
     ),
   },
   {
     accessorKey: "licenseCategory",
     header: "Category",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.licenseCategory}</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.licenseCategory}</span>
     ),
   },
   {
@@ -52,7 +52,7 @@ export const driverColumns: ColumnDef<Driver>[] = [
     cell: ({ row }) => {
       const expired = isExpired(row.original.licenseExpiry);
       return (
-        <span className={expired ? "text-red-400 font-medium" : "text-gray-300"}>
+        <span className={expired ? "text-red-400 font-medium" : "text-slate-500 dark:text-slate-400"}>
           {formatDate(row.original.licenseExpiry)}
           {expired && " EXPIRED"}
         </span>
@@ -63,7 +63,7 @@ export const driverColumns: ColumnDef<Driver>[] = [
     accessorKey: "contactNumber",
     header: "Contact",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.contactNumber}</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.contactNumber}</span>
     ),
   },
   {
@@ -93,19 +93,19 @@ export const driverColumns: ColumnDef<Driver>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="ghost" className="h-8 w-8 p-0" />}>
-              <MoreHorizontal className="h-4 w-4 text-gray-400" />
+              <MoreHorizontal className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-[#1A1A2E] border-[#2A2A3E]">
+          <DropdownMenuContent align="end" className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onEdit?: (d: Driver) => void })?.onEdit?.(driver)}
-              className="text-gray-300 focus:bg-[#2A2A3E] focus:text-white"
+              className="text-slate-500 dark:text-slate-400 focus:bg-slate-100 focus:text-slate-800 dark:text-white"
             >
               <Pencil className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onDelete?: (id: string) => void })?.onDelete?.(driver.id)}
-              className="text-red-400 focus:bg-red-500/10 focus:text-red-400"
+              className="text-red-400 focus:bg-red-50 focus:text-red-400"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete

@@ -72,14 +72,14 @@ export function CreateMaintenanceForm({ vehicles }: CreateMaintenanceFormProps) 
           name="vehicleId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Vehicle</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Vehicle</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                  <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue placeholder="Select vehicle" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                   {vehicles.map((v) => (
                     <SelectItem key={v.id} value={v.id}>
                       {v.name} ({v.registrationNumber})
@@ -97,14 +97,14 @@ export function CreateMaintenanceForm({ vehicles }: CreateMaintenanceFormProps) 
           name="serviceType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Service Type</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Service Type</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                  <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                   <SelectItem value="OIL_CHANGE">Oil Change</SelectItem>
                   <SelectItem value="TIRE_ROTATION">Tire Rotation</SelectItem>
                   <SelectItem value="ENGINE_REPAIR">Engine Repair</SelectItem>
@@ -123,9 +123,9 @@ export function CreateMaintenanceForm({ vehicles }: CreateMaintenanceFormProps) 
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Description</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Description</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -138,13 +138,13 @@ export function CreateMaintenanceForm({ vehicles }: CreateMaintenanceFormProps) 
             name="mileage"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Mileage</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Mileage</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -157,13 +157,13 @@ export function CreateMaintenanceForm({ vehicles }: CreateMaintenanceFormProps) 
             name="cost"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Cost (₹)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Cost (₹)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />

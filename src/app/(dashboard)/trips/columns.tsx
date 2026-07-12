@@ -15,7 +15,7 @@ export const tripColumns: ColumnDef<TripWithRelations>[] = [
     id: "tripNumber",
     header: "Trip",
     cell: ({ row }) => (
-      <span className="font-medium text-white">
+      <span className="font-medium text-slate-800 dark:text-white">
         TR{String(row.index + 1).padStart(3, "0")}
       </span>
     ),
@@ -24,14 +24,14 @@ export const tripColumns: ColumnDef<TripWithRelations>[] = [
     id: "vehicle",
     header: "Vehicle",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.vehicle?.name || "—"}</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.vehicle?.name || "—"}</span>
     ),
   },
   {
     id: "route",
     header: "Route",
     cell: ({ row }) => (
-      <span className="text-gray-300">
+      <span className="text-slate-500 dark:text-slate-400">
         {row.original.source} → {row.original.destination}
       </span>
     ),
@@ -40,14 +40,14 @@ export const tripColumns: ColumnDef<TripWithRelations>[] = [
     accessorKey: "cargoWeight",
     header: "Cargo",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.cargoWeight} kg</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.cargoWeight} kg</span>
     ),
   },
   {
     accessorKey: "plannedDistance",
     header: "Distance",
     cell: ({ row }) => (
-      <span className="text-gray-300">{row.original.plannedDistance} km</span>
+      <span className="text-slate-500 dark:text-slate-400">{row.original.plannedDistance} km</span>
     ),
   },
   {

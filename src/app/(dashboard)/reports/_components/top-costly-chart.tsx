@@ -17,7 +17,7 @@ interface TopCostlyChartProps {
 export function TopCostlyChart({ data }: TopCostlyChartProps) {
   if (data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64 text-gray-500 text-sm">
+      <div className="flex items-center justify-center h-64 text-slate-400 dark:text-slate-500 text-sm">
         No cost data available
       </div>
     );
@@ -26,16 +26,17 @@ export function TopCostlyChart({ data }: TopCostlyChartProps) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data} layout="vertical">
-        <CartesianGrid strokeDasharray="3 3" stroke="#2A2A3E" />
-        <XAxis type="number" stroke="#9CA3AF" fontSize={12} />
-        <YAxis dataKey="name" type="category" stroke="#9CA3AF" fontSize={12} width={80} />
+        <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+        <XAxis type="number" stroke="#94A3B8" fontSize={12} />
+        <YAxis dataKey="name" type="category" stroke="#94A3B8" fontSize={12} width={80} />
         <Tooltip
           contentStyle={{
-            backgroundColor: "#1A1A2E",
-            border: "1px solid #2A2A3E",
+            backgroundColor: "#FFFFFF",
+            border: "1px solid #E2E8F0",
             borderRadius: "8px",
+            color: "#1E293B",
           }}
-          labelStyle={{ color: "#fff" }}
+          labelStyle={{ color: "#1E293B" }}
           itemStyle={{ color: "#F59E0B" }}
           formatter={(value) => `₹${Number(value ?? 0).toLocaleString("en-IN")}`}
         />

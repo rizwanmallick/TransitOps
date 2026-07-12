@@ -23,14 +23,14 @@ export const maintenanceColumns: ColumnDef<MaintenanceWithVehicle>[] = [
     id: "vehicle",
     header: "Vehicle",
     cell: ({ row }) => (
-      <span className="font-medium text-white">{row.original.vehicle.name}</span>
+      <span className="font-medium text-slate-800 dark:text-white">{row.original.vehicle.name}</span>
     ),
   },
   {
     accessorKey: "serviceType",
     header: "Service",
     cell: ({ row }) => (
-      <span className="text-gray-300">
+      <span className="text-slate-500 dark:text-slate-400">
         {row.original.serviceType.replace(/_/g, " ")}
       </span>
     ),
@@ -39,7 +39,7 @@ export const maintenanceColumns: ColumnDef<MaintenanceWithVehicle>[] = [
     accessorKey: "cost",
     header: "Cost",
     cell: ({ row }) => (
-      <span className="text-gray-300">
+      <span className="text-slate-500 dark:text-slate-400">
         ₹{row.original.cost.toLocaleString("en-IN")}
       </span>
     ),

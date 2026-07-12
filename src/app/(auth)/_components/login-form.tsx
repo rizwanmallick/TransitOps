@@ -71,133 +71,149 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-[#F0F5FA]">
       {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-2/5 bg-[#0A0A12] p-12 flex-col justify-between">
-        <div>
+      <div className="hidden lg:flex lg:w-2/5 bg-[#1E3A5F] p-12 flex-col justify-between relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A5F] via-[#2A4F7A] to-[#1E3A5F] opacity-80" />
+
+        <div className="relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-              <Truck className="w-6 h-6 text-white" />
+            <div className="w-11 h-11 bg-white rounded-xl flex items-center justify-center shadow-lg">
+              <Truck className="w-6 h-6 text-[#1E3A5F]" />
             </div>
-            <h1 className="text-3xl font-bold text-white">TransitOps</h1>
+            <div>
+              <h1 className="text-3xl font-bold text-white tracking-tight">TransitOps</h1>
+              <p className="text-blue-200/80 text-xs tracking-wide mt-0.5">Smart Transport Operations Platform</p>
+            </div>
           </div>
-          <p className="text-gray-400 text-sm ml-13">Smart Transport Operations Platform</p>
         </div>
 
-        <div className="space-y-6">
-          <p className="text-gray-400 text-sm">Only login four roles:</p>
-          <ul className="space-y-3">
-            <li className="flex items-center gap-3 text-white">
-              <div className="w-2 h-2 rounded-full bg-orange-500" />
-              Fleet Manager
+        <div className="relative z-10 space-y-6">
+          <p className="text-blue-200/60 text-sm uppercase tracking-widest font-medium">One login, four roles:</p>
+          <ul className="space-y-5">
+            <li className="text-white/90">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="font-semibold text-base">Fleet Manager</span>
+              </div>
+              <p className="text-blue-200/50 text-sm ml-5.5">Fleet, Maintenance</p>
             </li>
-            <li className="flex items-center gap-3 text-white">
-              <div className="w-2 h-2 rounded-full bg-orange-500" />
-              Dispatcher
+            <li className="text-white/90">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="font-semibold text-base">Dispatcher</span>
+              </div>
+              <p className="text-blue-200/50 text-sm ml-5.5">Trips, Dispatch</p>
             </li>
-            <li className="flex items-center gap-3 text-white">
-              <div className="w-2 h-2 rounded-full bg-orange-500" />
-              Safety Officer
+            <li className="text-white/90">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="font-semibold text-base">Safety Officer</span>
+              </div>
+              <p className="text-blue-200/50 text-sm ml-5.5">Drivers, Compliance</p>
             </li>
-            <li className="flex items-center gap-3 text-white">
-              <div className="w-2 h-2 rounded-full bg-orange-500" />
-              Financial Analyst
+            <li className="text-white/90">
+              <div className="flex items-center gap-3 mb-1">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#F59E0B]" />
+                <span className="font-semibold text-base">Financial Analyst</span>
+              </div>
+              <p className="text-blue-200/50 text-sm ml-5.5">Fuel &amp; Expenses, Analytics</p>
             </li>
           </ul>
         </div>
 
-        <p className="text-gray-500 text-xs">
+        <p className="relative z-10 text-blue-200/40 text-xs">
           TransitOps &copy; 2026 &mdash; Smart Dashboard
         </p>
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-[#0F0F17]">
+      <div className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-md space-y-8">
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-[#1E3A5F] rounded-xl flex items-center justify-center">
               <Truck className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-white">TransitOps</h1>
+            <h1 className="text-2xl font-bold text-slate-800">TransitOps</h1>
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-white">Sign in to your account</h2>
-            <p className="text-gray-400 mt-2">Enter your credentials to continue</p>
+            <h2 className="text-2xl font-bold text-slate-800">Sign in to your account</h2>
+            <p className="text-slate-500 mt-2 text-sm">Enter your credentials to continue</p>
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-4">
-              <p className="text-red-400 text-sm font-medium">Error</p>
-              <p className="text-red-300 text-sm">{error}</p>
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+              <p className="text-red-600 text-sm font-medium">Error</p>
+              <p className="text-red-500 text-sm mt-0.5">{error}</p>
             </div>
           )}
 
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-300">
+              <Label htmlFor="email" className="text-slate-600 text-sm font-medium">
                 Email
               </Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="email@domain.com"
-                className="bg-[#1E1E30] border-[#2A2A3E] text-white placeholder:text-gray-500"
+                className="bg-white border-[#E2E8F0] text-slate-700 placeholder:text-slate-400 rounded-xl h-11 focus-visible:ring-2 focus-visible:ring-[#F59E0B]/40"
                 {...form.register("email")}
               />
               {form.formState.errors.email && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-xs mt-1">
                   {form.formState.errors.email.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-300">
+              <Label htmlFor="password" className="text-slate-600 text-sm font-medium">
                 Password
               </Label>
               <div className="relative">
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
-                  className="bg-[#1E1E30] border-[#2A2A3E] text-white placeholder:text-gray-500 pr-10"
+                  placeholder="Enter your password"
+                  className="bg-white border-[#E2E8F0] text-slate-700 placeholder:text-slate-400 rounded-xl h-11 pr-10 focus-visible:ring-2 focus-visible:ring-[#F59E0B]/40"
                   {...form.register("password")}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {form.formState.errors.password && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-xs mt-1">
                   {form.formState.errors.password.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label className="text-gray-300">Role</Label>
+              <Label className="text-slate-600 text-sm font-medium">Role</Label>
               <Select
                 value={form.watch("role")}
                 onValueChange={(value) => form.setValue("role", value ?? "")}
               >
-                <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                <SelectTrigger className="bg-white border-[#E2E8F0] text-slate-700 rounded-xl h-11 focus:ring-2 focus:ring-[#F59E0B]/40">
                   <SelectValue placeholder="Select your role" />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
-                  <SelectItem value="ADMIN">Admin</SelectItem>
-                  <SelectItem value="FLEET_MANAGER">Fleet Manager</SelectItem>
-                  <SelectItem value="DISPATCHER">Dispatcher</SelectItem>
-                  <SelectItem value="SAFETY_OFFICER">Safety Officer</SelectItem>
-                  <SelectItem value="FINANCIAL_ANALYST">Financial Analyst</SelectItem>
+                <SelectContent className="bg-white border-[#E2E8F0] shadow-xl rounded-xl">
+                  <SelectItem value="ADMIN" className="text-slate-600 rounded-lg">Admin</SelectItem>
+                  <SelectItem value="FLEET_MANAGER" className="text-slate-600 rounded-lg">Fleet Manager</SelectItem>
+                  <SelectItem value="DISPATCHER" className="text-slate-600 rounded-lg">Dispatcher</SelectItem>
+                  <SelectItem value="SAFETY_OFFICER" className="text-slate-600 rounded-lg">Safety Officer</SelectItem>
+                  <SelectItem value="FINANCIAL_ANALYST" className="text-slate-600 rounded-lg">Financial Analyst</SelectItem>
                 </SelectContent>
               </Select>
               {form.formState.errors.role && (
-                <p className="text-red-400 text-sm">
+                <p className="text-red-500 text-xs mt-1">
                   {form.formState.errors.role.message}
                 </p>
               )}
@@ -207,13 +223,13 @@ export function LoginForm() {
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 rounded border-gray-600 bg-[#1E1E30] text-orange-500 focus:ring-orange-500"
+                  className="w-4 h-4 rounded border-[#E2E8F0] text-[#F59E0B] focus:ring-[#F59E0B]"
                 />
-                <span className="text-sm text-gray-400">Remember me</span>
+                <span className="text-sm text-slate-500">Remember me</span>
               </label>
               <button
                 type="button"
-                className="text-sm text-orange-500 hover:text-orange-400"
+                className="text-sm text-[#F59E0B] hover:text-[#D97706] font-medium transition-colors"
               >
                 Forgot password?
               </button>
@@ -221,7 +237,7 @@ export function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2.5"
+              className="w-full bg-[#F59E0B] hover:bg-[#D97706] text-white font-semibold py-2.5 rounded-xl h-12 shadow-md shadow-[#F59E0B]/20 transition-all"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -231,14 +247,6 @@ export function LoginForm() {
               )}
             </Button>
           </form>
-
-          <div className="text-center text-xs text-gray-500 space-y-1">
-            <p>Access is mapped to user roles:</p>
-            <p>Fleet Manager &rarr; Fleet, Maintenance</p>
-            <p>Dispatcher &rarr; Trips, Dispatch</p>
-            <p>Safety Officer &rarr; Drivers, Compliance</p>
-            <p>Financial Analyst &rarr; Fuel &amp; Expenses, Analytics</p>
-          </div>
         </div>
       </div>
     </div>

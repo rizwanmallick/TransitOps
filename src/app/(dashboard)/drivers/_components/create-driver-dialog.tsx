@@ -45,9 +45,9 @@ export function CreateDriverDialog() {
           <Plus className="w-4 h-4 mr-2" />
           Add Driver
       </DialogTrigger>
-      <DialogContent className="bg-[#1A1A2E] border-[#2A2A3E] max-w-lg">
+      <DialogContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-white">Add New Driver</DialogTitle>
+          <DialogTitle className="text-slate-800 dark:text-white">Add New Driver</DialogTitle>
         </DialogHeader>
         <DriverForm onSubmit={onSubmit} isLoading={isLoading} />
       </DialogContent>

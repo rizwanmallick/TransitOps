@@ -25,14 +25,14 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     accessorKey: "registrationNumber",
     header: "Plate / Reg. No.",
     cell: ({ row }) => (
-      <span className="font-medium text-white">{row.original.registrationNumber}</span>
+      <span className="font-medium text-slate-800 dark:text-white">{row.original.registrationNumber}</span>
     ),
   },
   {
     id: "yearModel",
     header: "Year/Manuf.",
     cell: ({ row }) => (
-      <span className="text-gray-300">
+      <span className="text-slate-500 dark:text-slate-400">
         {row.original.yearOfManufacture} / {row.original.model}
       </span>
     ),
@@ -41,7 +41,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     accessorKey: "maxLoadCapacity",
     header: "Capacity",
     cell: ({ row }) => (
-      <span className="text-gray-300">
+      <span className="text-slate-500 dark:text-slate-400">
         {row.original.maxLoadCapacity.toLocaleString("en-IN")}{" "}
         {row.original.maxLoadCapacity >= 1000 ? "Ton" : "kg"}
       </span>
@@ -51,14 +51,14 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     accessorKey: "odometer",
     header: "Odometer",
     cell: ({ row }) => (
-      <span className="text-gray-300">{formatOdometer(row.original.odometer)}</span>
+      <span className="text-slate-500 dark:text-slate-400">{formatOdometer(row.original.odometer)}</span>
     ),
   },
   {
     accessorKey: "acquisitionCost",
     header: "Avg Cost",
     cell: ({ row }) => (
-      <span className="text-gray-300">{formatINR(row.original.acquisitionCost)}</span>
+      <span className="text-slate-500 dark:text-slate-400">{formatINR(row.original.acquisitionCost)}</span>
     ),
   },
   {
@@ -74,19 +74,19 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger render={<Button variant="ghost" className="h-8 w-8 p-0" />}>
-              <MoreHorizontal className="h-4 w-4 text-gray-400" />
+              <MoreHorizontal className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-[#1A1A2E] border-[#2A2A3E]">
+          <DropdownMenuContent align="end" className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onEdit?: (v: Vehicle) => void })?.onEdit?.(vehicle)}
-              className="text-gray-300 focus:bg-[#2A2A3E] focus:text-white"
+              className="text-slate-500 dark:text-slate-400 focus:bg-slate-100 focus:text-slate-800 dark:text-white"
             >
               <Pencil className="w-4 h-4 mr-2" />
               Edit
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => (table.options.meta as { onDelete?: (id: string) => void })?.onDelete?.(vehicle.id)}
-              className="text-red-400 focus:bg-red-500/10 focus:text-red-400"
+              className="text-red-400 focus:bg-red-50 focus:text-red-400"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete

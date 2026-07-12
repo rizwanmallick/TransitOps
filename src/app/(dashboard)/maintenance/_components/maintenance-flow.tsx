@@ -15,7 +15,7 @@ export function MaintenanceFlow() {
             {state.label}
           </div>
           {i < states.length - 1 && (
-            <span className="text-gray-500">&rarr;</span>
+            <span className="text-slate-400 dark:text-slate-500">&rarr;</span>
           )}
         </div>
       ))}

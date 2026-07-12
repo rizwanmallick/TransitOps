@@ -48,12 +48,12 @@ export function ReportsPageClient({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Reports & Analytics</h1>
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Reports & Analytics</h1>
         <div className="flex gap-2">
           <Button
             size="sm"
             variant="outline"
-            className="border-[#2A2A3E] text-gray-300"
+            className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400"
             onClick={() => handleExport("vehicles")}
           >
             <Download className="w-4 h-4 mr-1" />
@@ -62,7 +62,7 @@ export function ReportsPageClient({
           <Button
             size="sm"
             variant="outline"
-            className="border-[#2A2A3E] text-gray-300"
+            className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400"
             onClick={() => handleExport("trips")}
           >
             <Download className="w-4 h-4 mr-1" />
@@ -71,7 +71,7 @@ export function ReportsPageClient({
           <Button
             size="sm"
             variant="outline"
-            className="border-[#2A2A3E] text-gray-300"
+            className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400"
             onClick={() => handleExport("fuel")}
           >
             <Download className="w-4 h-4 mr-1" />
@@ -80,7 +80,7 @@ export function ReportsPageClient({
           <Button
             size="sm"
             variant="outline"
-            className="border-[#2A2A3E] text-gray-300"
+            className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400"
             onClick={() => handleExport("expenses")}
           >
             <Download className="w-4 h-4 mr-1" />
@@ -99,15 +99,15 @@ export function ReportsPageClient({
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg p-5">
-          <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+        <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-5">
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider mb-4">
             Monthly Revenue
           </h3>
           <RevenueChart data={monthlyRevenue} />
         </div>
 
-        <div className="bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg p-5">
-          <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
+        <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-5">
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider mb-4">
             Top Costliest Vehicles
           </h3>
           <TopCostlyChart data={topCostlyVehicles} />

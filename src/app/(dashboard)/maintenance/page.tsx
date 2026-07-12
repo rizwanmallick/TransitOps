@@ -16,7 +16,7 @@ export default async function MaintenancePage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Maintenance</h1>
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Maintenance</h1>
       </div>
       <MaintenanceDataTable logs={logs} vehicles={vehicles} />
     </div>
