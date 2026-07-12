@@ -1,6 +1,7 @@
 import { Providers } from "@/components/providers";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
+import { PageTransitionWrapper } from "@/components/layout/page-transition";
 
 export default function DashboardLayout({
   children,
@@ -9,11 +10,11 @@ export default function DashboardLayout({
 }) {
   return (
     <Providers>
-      <div className="flex min-h-screen bg-[#F0F5FA] dark:bg-[#0F0F17] transition-colors">
+      <div className="flex min-h-screen bg-mesh">
         <Sidebar />
-        <div className="flex-1 ml-60 flex flex-col">
+        <div className="flex-1 ml-64 flex flex-col">
           <Header />
-          <main className="flex-1 p-8 overflow-auto">{children}</main>
+          <PageTransitionWrapper>{children}</PageTransitionWrapper>
         </div>
       </div>
     </Providers>

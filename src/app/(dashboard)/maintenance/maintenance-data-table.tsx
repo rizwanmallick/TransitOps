@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import {
   useReactTable,
@@ -10,7 +10,6 @@ import {
 import { maintenanceColumns } from "./columns";
 import { CreateMaintenanceForm } from "./_components/create-maintenance-form";
 import { MaintenanceFlow } from "./_components/maintenance-flow";
-import { completeMaintenance } from "./actions";
 import {
   Table,
   TableBody,
@@ -19,7 +18,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toast } from "sonner";
 import type { Vehicle } from "@/generated/prisma";
 
 interface MaintenanceWithVehicle {
@@ -41,51 +39,35 @@ interface MaintenanceDataTableProps {
 }
 
 export function MaintenanceDataTable({ logs, vehicles }: MaintenanceDataTableProps) {
-  const router = useRouter();
-
   const table = useReactTable({
     data: logs,
     columns: maintenanceColumns,
     getCoreRowModel: getCoreRowModel(),
-    meta: {
-      onComplete: async (id: string) => {
-        const result = await completeMaintenance(id);
-        if (result.success) {
-          toast.success("Maintenance completed");
-          router.refresh();
-        } else {
-          toast.error(result.error || "Failed");
-        }
-      },
-    },
   });
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Form */}
-      <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-5">
-        <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider mb-4">
-          Log Service Record
-        </h3>
+      <div className="glass-card p-5">
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">Log Service Record</h3>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Add maintenance entry</p>
         <CreateMaintenanceForm vehicles={vehicles} />
       </div>
 
       {/* Service Log */}
       <div className="lg:col-span-2 space-y-4">
-        <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg overflow-hidden">
-          <div className="p-4 border-b border-[#E2E8F0] dark:border-b-[#2A2A3E]">
-            <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider">
-              Service Log
-            </h3>
+        <div className="glass-card overflow-hidden">
+          <div className="p-4 border-b border-black/5 dark:border-white/5">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Service Log</h3>
           </div>
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((hg) => (
-                <TableRow key={hg.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-transparent">
+                <TableRow key={hg.id} className="border-black/5 dark:border-white/5 hover:bg-transparent">
                   {hg.headers.map((h) => (
                     <TableHead
                       key={h.id}
-                      className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium"
+                      className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium tracking-wider"
                     >
                       {flexRender(h.column.columnDef.header, h.getContext())}
                     </TableHead>
@@ -95,7 +77,7 @@ export function MaintenanceDataTable({ logs, vehicles }: MaintenanceDataTablePro
             </TableHeader>
             <TableBody>
               {table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-slate-50 dark:hover:bg-white/5">
+                <TableRow key={row.id} className="border-black/5 dark:border-white/5 hover:bg-white/50 dark:hover:bg-white/3 transition-colors">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -105,7 +87,7 @@ export function MaintenanceDataTable({ logs, vehicles }: MaintenanceDataTablePro
               ))}
               {table.getRowModel().rows.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-slate-400 dark:text-slate-500">
+                  <TableCell colSpan={5} className="text-center py-12 text-slate-400 dark:text-slate-500">
                     No maintenance records
                   </TableCell>
                 </TableRow>
@@ -114,13 +96,9 @@ export function MaintenanceDataTable({ logs, vehicles }: MaintenanceDataTablePro
           </Table>
         </div>
 
-        <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg p-4">
+        <div className="glass-card p-4">
           <MaintenanceFlow />
         </div>
-
-        <p className="text-xs text-amber-500">
-          In-Shop vehicles are removed from the dispatch pool
-        </p>
       </div>
     </div>
   );
