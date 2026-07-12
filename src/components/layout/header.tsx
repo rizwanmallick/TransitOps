@@ -93,7 +93,7 @@ export function Header() {
 
         {/* User Menu */}
         <DropdownMenu>
-          <DropdownMenuTrigger render={<div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" />}>
+          <DropdownMenuTrigger render={<button type="button" className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" />}>
             <motion.div
               className="flex items-center gap-3 px-3 py-1.5 rounded-xl hover:bg-white/60 dark:hover:bg-white/5 transition-all duration-200"
               whileHover={{ scale: 1.02 }}
