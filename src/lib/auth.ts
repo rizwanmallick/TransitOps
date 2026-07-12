@@ -14,14 +14,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         const email = credentials?.email as string;
         const password = credentials?.password as string;
+        const role = credentials?.role as string;
 
-        if (!email || !password) return null;
+        if (!email || !password || !role) return null;
 
         const user = await prisma.user.findUnique({
           where: { email },
         });
 
         if (!user?.hashedPassword) return null;
+        if (user.role !== role) return null;
 
         const valid = await bcrypt.compare(password, user.hashedPassword);
         if (!valid) return null;
