@@ -9,7 +9,7 @@ export default async function FuelExpensesPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Fuel & Expense Management</h1>
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">Fuel & Expense Management</h1>
       </div>
       <FuelExpensesDataTable {...data} />
     </div>

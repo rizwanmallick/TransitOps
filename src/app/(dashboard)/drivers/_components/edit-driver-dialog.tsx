@@ -48,9 +48,9 @@ export function EditDriverDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#1A1A2E] border-[#2A2A3E] max-w-lg">
+      <DialogContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-white">Edit Driver</DialogTitle>
+          <DialogTitle className="text-slate-800 dark:text-white">Edit Driver</DialogTitle>
         </DialogHeader>
         <DriverForm
           defaultValues={{

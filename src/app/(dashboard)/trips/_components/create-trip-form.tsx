@@ -90,9 +90,9 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           name="source"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Origin</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Origin</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="e.g. Mumbai" className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                <Input {...field} placeholder="e.g. Mumbai" className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,9 +104,9 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           name="destination"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Destination</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Destination</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="e.g. Ahmedabad" className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                <Input {...field} placeholder="e.g. Ahmedabad" className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,14 +118,14 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           name="vehicleId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Vehicle</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Vehicle</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                  <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue placeholder="Select a vehicle" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                   {vehicles.map((v) => (
                     <SelectItem key={v.id} value={v.id}>
                       {v.name} ({v.registrationNumber}) - {v.maxLoadCapacity}kg
@@ -148,14 +148,14 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           name="driverId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Driver</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Driver</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                  <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue placeholder="Select a driver" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                   {drivers.map((d) => (
                     <SelectItem key={d.id} value={d.id}>
                       {d.name} ({d.licenseNumber})
@@ -179,13 +179,13 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
             name="cargoWeight"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Cargo Weight (KG)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Cargo Weight (KG)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -198,13 +198,13 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
             name="plannedDistance"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Planned Distance (KM)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Planned Distance (KM)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -214,12 +214,12 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
         </div>
 
         {error && (
-          <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-lg p-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
             <div className="flex items-start gap-2">
-              <AlertTriangle className="w-5 h-5 text-yellow-500 mt-0.5" />
+              <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5" />
               <div>
-                <p className="text-yellow-400 text-sm font-medium">Validation Error</p>
-                <p className="text-yellow-300 text-sm mt-1">{error}</p>
+                <p className="text-amber-600 text-sm font-medium">Validation Error</p>
+                <p className="text-amber-500 text-sm mt-1">{error}</p>
               </div>
             </div>
           </div>
@@ -237,7 +237,7 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
             type="button"
             variant="outline"
             onClick={() => form.reset()}
-            className="border-[#2A2A3E] text-gray-300 hover:bg-[#2A2A3E]"
+            className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5"
           >
             Cancel
           </Button>

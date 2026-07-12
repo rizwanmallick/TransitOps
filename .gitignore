@@ -60,3 +60,11 @@ yarn-error.log*
 
 # Vercel
 .vercel/project.json
+
+.opencode
+
+graphify-out
+
+transitops-plan.md
+
+TransitOps Smart Transport Operations Platform.pdf

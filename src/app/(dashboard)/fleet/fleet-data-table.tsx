@@ -89,18 +89,18 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
       {/* Filters */}
       <div className="flex items-center gap-4 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
           <Input
             placeholder="Search vehicles..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10 bg-[#1E1E30] border-[#2A2A3E] text-white placeholder:text-gray-500"
+            className="pl-10 bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
           />
         </div>
         <select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          className="bg-[#1E1E30] border border-[#2A2A3E] text-white text-sm rounded-lg px-3 py-2"
+          className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-2"
         >
           <option value="ALL">Type: All</option>
           <option value="TRUCK">Truck</option>
@@ -112,7 +112,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-[#1E1E30] border border-[#2A2A3E] text-white text-sm rounded-lg px-3 py-2"
+          className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 text-sm rounded-lg px-3 py-2"
         >
           <option value="ALL">Status: All</option>
           <option value="AVAILABLE">Available</option>
@@ -124,15 +124,15 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
       </div>
 
       {/* Table */}
-      <div className="bg-[#1A1A2E] border border-[#2A2A3E] rounded-lg overflow-hidden">
+      <div className="bg-white dark:bg-[#1A1A2E] border border-[#E2E8F0] dark:border-[#2A2A3E] rounded-lg overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
-              <TableRow key={hg.id} className="border-[#2A2A3E] hover:bg-transparent">
+              <TableRow key={hg.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-transparent">
                 {hg.headers.map((h) => (
                   <TableHead
                     key={h.id}
-                    className="text-xs text-gray-400 uppercase font-medium"
+                    className="text-xs text-slate-400 dark:text-slate-500 uppercase font-medium"
                   >
                     {flexRender(h.column.columnDef.header, h.getContext())}
                   </TableHead>
@@ -142,7 +142,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} className="border-[#2A2A3E] hover:bg-white/5">
+              <TableRow key={row.id} className="border-[#E2E8F0] dark:border-[#2A2A3E] hover:bg-slate-50 dark:hover:bg-white/5">
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -154,7 +154,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
               <TableRow>
                 <TableCell
                   colSpan={vehicleColumns.length}
-                  className="text-center py-8 text-gray-500"
+                  className="text-center py-8 text-slate-400 dark:text-slate-500"
                 >
                   No vehicles found
                 </TableCell>
@@ -164,7 +164,7 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
         </Table>
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-slate-400 dark:text-slate-500">
         Auto Registration via API via owner &mdash; Maintenance Log entries are linked from Trip
         Dispatcher
       </p>
@@ -180,15 +180,15 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent className="bg-[#1A1A2E] border-[#2A2A3E]">
+        <AlertDialogContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">Delete Vehicle</AlertDialogTitle>
-            <AlertDialogDescription className="text-gray-400">
+            <AlertDialogTitle className="text-slate-800 dark:text-white">Delete Vehicle</AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-400 dark:text-slate-500">
               Are you sure you want to delete this vehicle? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="bg-[#2A2A3E] border-[#3A3A4E] text-white hover:bg-[#3A3A4E]">
+            <AlertDialogCancel className="bg-slate-100 border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 hover:bg-slate-200">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction

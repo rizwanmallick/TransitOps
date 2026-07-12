@@ -9,11 +9,11 @@ export default function DashboardLayout({
 }) {
   return (
     <Providers>
-      <div className="flex min-h-screen bg-[#0F0F17]">
+      <div className="flex min-h-screen bg-[#F0F5FA] dark:bg-[#0F0F17] transition-colors">
         <Sidebar />
-        <div className="flex-1 ml-56 flex flex-col">
+        <div className="flex-1 ml-60 flex flex-col">
           <Header />
-          <main className="flex-1 p-6 overflow-auto">{children}</main>
+          <main className="flex-1 p-8 overflow-auto">{children}</main>
         </div>
       </div>
     </Providers>

@@ -23,9 +23,11 @@ type TripWithRelations = Trip & {
 
 interface LiveBoardProps {
   trips: TripWithRelations[];
+  selectedTripId?: string | null;
+  onSelectTrip?: (id: string | null) => void;
 }
 
-export function LiveBoard({ trips }: LiveBoardProps) {
+export function LiveBoard({ trips, selectedTripId, onSelectTrip }: LiveBoardProps) {
   const router = useRouter();
   const [completeDialogTrip, setCompleteDialogTrip] = useState<TripWithRelations | null>(null);
   const [actualDistance, setActualDistance] = useState(0);
@@ -69,28 +71,33 @@ export function LiveBoard({ trips }: LiveBoardProps) {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-sm font-semibold text-white uppercase tracking-wider">
+      <h3 className="text-sm font-semibold text-slate-800 dark:text-white uppercase tracking-wider">
         Live Board
       </h3>
 
       {activeTrips.length === 0 ? (
-        <p className="text-gray-500 text-sm py-4">No active trips</p>
+        <p className="text-slate-400 dark:text-slate-500 text-sm py-4">No active trips</p>
       ) : (
         activeTrips.map((trip, i) => (
           <div
             key={trip.id}
-            className="bg-[#1E1E30] border border-[#2A2A3E] rounded-lg p-3 space-y-2"
+            onClick={() => onSelectTrip?.(selectedTripId === trip.id ? null : trip.id)}
+            className={`rounded-lg p-3 space-y-2 cursor-pointer transition-colors ${
+              selectedTripId === trip.id
+                ? "bg-orange-50 border border-orange-300"
+                : "bg-[#F8FAFC] dark:bg-[#1E1E30] border border-[#E2E8F0] dark:border-[#2A2A3E] hover:border-slate-300"
+            }`}
           >
             <div className="flex items-center justify-between">
-              <span className="font-medium text-white">
+              <span className="font-medium text-slate-800 dark:text-white">
                 TR{String(i + 1).padStart(3, "0")}
               </span>
               <StatusBadge status={trip.status} />
             </div>
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
               {trip.source} → {trip.destination}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-slate-400 dark:text-slate-500">
               {trip.vehicle?.name || "No vehicle"} / {trip.driver?.name || "No driver"}
             </p>
             {trip.status === "DRAFT" && (
@@ -105,7 +112,7 @@ export function LiveBoard({ trips }: LiveBoardProps) {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-[#2A2A3E] text-gray-300 text-xs"
+                  className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400 text-xs"
                   onClick={() => handleCancel(trip.id)}
                 >
                   Cancel
@@ -128,7 +135,7 @@ export function LiveBoard({ trips }: LiveBoardProps) {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="border-[#2A2A3E] text-gray-300 text-xs"
+                  className="border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-500 dark:text-slate-400 text-xs"
                   onClick={() => handleCancel(trip.id)}
                 >
                   Cancel
@@ -141,27 +148,27 @@ export function LiveBoard({ trips }: LiveBoardProps) {
 
       {/* Complete Trip Dialog */}
       <Dialog open={!!completeDialogTrip} onOpenChange={() => setCompleteDialogTrip(null)}>
-        <DialogContent className="bg-[#1A1A2E] border-[#2A2A3E]">
+        <DialogContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
           <DialogHeader>
-            <DialogTitle className="text-white">Complete Trip</DialogTitle>
+            <DialogTitle className="text-slate-800 dark:text-white">Complete Trip</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label className="text-gray-300">Actual Distance (km)</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Actual Distance (km)</Label>
               <Input
                 type="number"
                 value={actualDistance}
                 onChange={(e) => setActualDistance(parseFloat(e.target.value) || 0)}
-                className="bg-[#1E1E30] border-[#2A2A3E] text-white mt-1"
+                className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"
               />
             </div>
             <div>
-              <Label className="text-gray-300">Fuel Consumed (liters)</Label>
+              <Label className="text-slate-600 dark:text-slate-300">Fuel Consumed (liters)</Label>
               <Input
                 type="number"
                 value={fuelConsumed}
                 onChange={(e) => setFuelConsumed(parseFloat(e.target.value) || 0)}
-                className="bg-[#1E1E30] border-[#2A2A3E] text-white mt-1"
+                className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"
               />
             </div>
             <Button

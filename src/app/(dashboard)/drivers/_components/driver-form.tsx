@@ -51,9 +51,9 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Driver Name</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Driver Name</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,9 +66,9 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="licenseNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">License Number</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">License Number</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                  <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,14 +80,14 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="licenseCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">License Category</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">License Category</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                    <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                  <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                     <SelectItem value="LMV">LMV</SelectItem>
                     <SelectItem value="HMV">HMV</SelectItem>
                     <SelectItem value="MCWG">MCWG</SelectItem>
@@ -106,12 +106,12 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="licenseExpiry"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">License Expiry</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">License Expiry</FormLabel>
                 <FormControl>
                   <Input
                     type="date"
                     {...field}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -124,9 +124,9 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="contactNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Contact Number</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Contact Number</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                  <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -140,7 +140,7 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="safetyScore"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Safety Score (0-100)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Safety Score (0-100)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -148,7 +148,7 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
                     max={100}
                     {...field}
                     onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -161,14 +161,14 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Status</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Status</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                    <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                  <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                     <SelectItem value="AVAILABLE">Available</SelectItem>
                     <SelectItem value="ON_TRIP">On Trip</SelectItem>
                     <SelectItem value="OFF_DUTY">Off Duty</SelectItem>

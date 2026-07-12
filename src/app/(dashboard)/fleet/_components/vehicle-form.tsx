@@ -53,9 +53,9 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
           name="registrationNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300">Registration Number</FormLabel>
+              <FormLabel className="text-slate-600 dark:text-slate-300">Registration Number</FormLabel>
               <FormControl>
-                <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -68,9 +68,9 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Vehicle Name</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Vehicle Name</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                  <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,9 +82,9 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="model"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Model</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Model</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-[#1E1E30] border-[#2A2A3E] text-white" />
+                  <Input {...field} className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,14 +98,14 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Type</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Type</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                    <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                  <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                     <SelectItem value="TRUCK">Truck</SelectItem>
                     <SelectItem value="VAN">Van</SelectItem>
                     <SelectItem value="BUS">Bus</SelectItem>
@@ -123,13 +123,13 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="yearOfManufacture"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Year of Manufacture</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Year of Manufacture</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -144,13 +144,13 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="maxLoadCapacity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Max Load Capacity (kg)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Max Load Capacity (kg)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -163,13 +163,13 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="acquisitionCost"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Acquisition Cost (₹)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Acquisition Cost (₹)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -184,13 +184,13 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="odometer"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Odometer (km)</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Odometer (km)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
-                    className="bg-[#1E1E30] border-[#2A2A3E] text-white"
+                    className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
                   />
                 </FormControl>
                 <FormMessage />
@@ -203,14 +203,14 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-300">Status</FormLabel>
+                <FormLabel className="text-slate-600 dark:text-slate-300">Status</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger className="bg-[#1E1E30] border-[#2A2A3E] text-white">
+                    <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                       <SelectValue />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-[#1E1E30] border-[#2A2A3E]">
+                  <SelectContent className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E]">
                     <SelectItem value="AVAILABLE">Available</SelectItem>
                     <SelectItem value="ON_TRIP">On Trip</SelectItem>
                     <SelectItem value="IN_SHOP">In Shop</SelectItem>
