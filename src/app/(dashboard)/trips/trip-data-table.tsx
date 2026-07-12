@@ -25,14 +25,6 @@ export function TripDataTable({ trips, vehicles, drivers }: TripDataTableProps) 
     ? trips.find((t) => t.id === selectedTripId)
     : null;
 
-  const getLifecycleStep = (): number => {
-    const statuses = trips.map((t) => t.status);
-    if (statuses.includes("IN_PROGRESS")) return 2;
-    if (statuses.includes("DISPATCHED")) return 1;
-    if (statuses.includes("DRAFT")) return 0;
-    return 3;
-  };
-
   return (
     <motion.div
       className="space-y-6"
@@ -48,7 +40,7 @@ export function TripDataTable({ trips, vehicles, drivers }: TripDataTableProps) 
         transition={{ delay: 0.1, duration: 0.4 }}
       >
         <TripLifecycle
-          currentStep={getLifecycleStep()}
+          currentStep={selectedTrip ? -1 : -1}
           tripStatus={selectedTrip?.status ?? null}
         />
       </motion.div>

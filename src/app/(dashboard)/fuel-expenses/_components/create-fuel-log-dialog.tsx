@@ -73,7 +73,14 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
         <div className="space-y-4">
           <div>
             <Label className="text-slate-600 dark:text-slate-300">Vehicle</Label>
-            <Select value={form.vehicleId} onValueChange={(v) => setForm({ ...form, vehicleId: v ?? "" })}>
+            <Select
+              value={form.vehicleId || undefined}
+              onValueChange={(v) => setForm({ ...form, vehicleId: v ?? "" })}
+              items={vehicles.map((v) => ({
+                value: v.id,
+                label: v.name,
+              }))}
+            >
               <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1">
                 <SelectValue placeholder="Select vehicle" />
               </SelectTrigger>
@@ -89,6 +96,8 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
               <Label className="text-slate-600 dark:text-slate-300">Litres</Label>
               <Input
                 type="number"
+                min={0.1}
+                step="0.1"
                 value={form.liters || ""}
                 onChange={(e) => setForm({ ...form, liters: parseFloat(e.target.value) || 0 })}
                 className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"
@@ -98,6 +107,8 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
               <Label className="text-slate-600 dark:text-slate-300">Cost (₹)</Label>
               <Input
                 type="number"
+                min={0}
+                step="0.01"
                 value={form.cost || ""}
                 onChange={(e) => setForm({ ...form, cost: parseFloat(e.target.value) || 0 })}
                 className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"

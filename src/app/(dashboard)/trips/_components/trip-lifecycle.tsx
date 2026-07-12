@@ -21,6 +21,7 @@ interface TripLifecycleProps {
 export function TripLifecycle({ currentStep, tripStatus }: TripLifecycleProps) {
   const displayStep = tripStatus ? statusToStep(tripStatus) : currentStep;
   const showCancelled = tripStatus === "CANCELLED";
+  const hasSelection = tripStatus !== null && tripStatus !== undefined;
 
   return (
     <div className="flex items-center justify-between max-w-2xl mx-auto py-4">
@@ -29,7 +30,7 @@ export function TripLifecycle({ currentStep, tripStatus }: TripLifecycleProps) {
           <div className="flex flex-col items-center">
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium border-2 ${
-                i <= displayStep
+                displayStep >= 0 && i <= displayStep
                   ? "bg-orange-500 border-orange-500 text-white"
                   : showCancelled && i === 0
                     ? "bg-red-50 border-red-300 text-red-400"
@@ -40,7 +41,7 @@ export function TripLifecycle({ currentStep, tripStatus }: TripLifecycleProps) {
             </div>
             <span
               className={`text-xs mt-2 ${
-                i <= displayStep ? "text-orange-500" : showCancelled && i === 0 ? "text-red-400" : "text-slate-400 dark:text-slate-500"
+                displayStep >= 0 && i <= displayStep ? "text-orange-500" : showCancelled && i === 0 ? "text-red-400" : "text-slate-400 dark:text-slate-500"
               }`}
             >
               {step}
@@ -49,7 +50,7 @@ export function TripLifecycle({ currentStep, tripStatus }: TripLifecycleProps) {
           {i < steps.length - 1 && (
             <div
               className={`w-16 h-0.5 mx-2 ${
-                i < displayStep ? "bg-orange-500" : "bg-[#E2E8F0]"
+                displayStep >= 0 && i < displayStep ? "bg-orange-500" : "bg-[#E2E8F0]"
               }`}
             />
           )}

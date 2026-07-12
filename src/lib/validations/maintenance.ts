@@ -4,7 +4,7 @@ export const maintenanceSchema = z.object({
   vehicleId: z.string().min(1, "Vehicle is required"),
   serviceType: z.enum(["OIL_CHANGE", "TIRE_ROTATION", "ENGINE_REPAIR", "BRAKE_SERVICE", "INSPECTION", "OTHER"]),
   description: z.string().optional(),
-  mileage: z.number().optional(),
+  mileage: z.number().min(0, "Mileage must be non-negative").optional(),
   cost: z.number().min(0, "Cost must be positive"),
 });
 

@@ -119,7 +119,14 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-slate-600 dark:text-slate-300">Vehicle</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                value={field.value || undefined}
+                onValueChange={field.onChange}
+                items={vehicles.map((v) => ({
+                  value: v.id,
+                  label: `${v.name} (${v.registrationNumber}) - ${v.maxLoadCapacity}kg`,
+                }))}
+              >
                 <FormControl>
                   <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue placeholder="Select a vehicle" />
@@ -149,7 +156,14 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-slate-600 dark:text-slate-300">Driver</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                value={field.value || undefined}
+                onValueChange={field.onChange}
+                items={drivers.map((d) => ({
+                  value: d.id,
+                  label: `${d.name} (${d.licenseNumber})`,
+                }))}
+              >
                 <FormControl>
                   <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700">
                     <SelectValue placeholder="Select a driver" />
@@ -183,6 +197,7 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
@@ -202,6 +217,7 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"

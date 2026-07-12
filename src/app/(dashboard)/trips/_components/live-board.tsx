@@ -157,6 +157,8 @@ export function LiveBoard({ trips, selectedTripId, onSelectTrip }: LiveBoardProp
               <Label className="text-slate-600 dark:text-slate-300">Actual Distance (km)</Label>
               <Input
                 type="number"
+                min={0}
+                step="0.1"
                 value={actualDistance}
                 onChange={(e) => setActualDistance(parseFloat(e.target.value) || 0)}
                 className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"
@@ -166,6 +168,8 @@ export function LiveBoard({ trips, selectedTripId, onSelectTrip }: LiveBoardProp
               <Label className="text-slate-600 dark:text-slate-300">Fuel Consumed (liters)</Label>
               <Input
                 type="number"
+                min={0}
+                step="0.1"
                 value={fuelConsumed}
                 onChange={(e) => setFuelConsumed(parseFloat(e.target.value) || 0)}
                 className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1"

@@ -127,6 +127,7 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
                 <FormControl>
                   <Input
                     type="number"
+                    min={1900}
                     {...field}
                     onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
@@ -148,6 +149,7 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
@@ -167,6 +169,7 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
@@ -188,6 +191,7 @@ export function VehicleForm({ defaultValues, onSubmit, isLoading }: VehicleFormP
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     {...field}
                     onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
                     className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700"
