@@ -16,16 +16,7 @@ import {
   Settings,
   Zap,
 } from "lucide-react";
-
-const roleRoutes: Record<string, string[]> = {
-  "/fleet": ["ADMIN", "FLEET_MANAGER"],
-  "/drivers": ["ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER"],
-  "/trips": ["ADMIN", "FLEET_MANAGER", "DISPATCHER"],
-  "/maintenance": ["ADMIN", "FLEET_MANAGER"],
-  "/fuel-expenses": ["ADMIN", "FINANCIAL_ANALYST", "FLEET_MANAGER"],
-  "/reports": ["ADMIN", "FINANCIAL_ANALYST"],
-  "/settings": ["ADMIN"],
-};
+import { ROUTE_ACCESS, Role } from "@/lib/rbac";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -41,10 +32,11 @@ const bottomItems = [
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
-function canAccessRoute(role: string, href: string): boolean {
+function canAccessRoute(role: Role | undefined, href: string): boolean {
+  if (!role) return false;
   if (href === "/dashboard") return true;
-  const allowed = roleRoutes[href];
-  return allowed ? allowed.includes(role) : true;
+  const allowed = ROUTE_ACCESS[href];
+  return allowed ? allowed.includes(role) : false;
 }
 
 const sidebarVariants = {
@@ -69,7 +61,7 @@ const navItemVariants = {
 export function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const role = (session?.user as { role?: string })?.role ?? "";
+  const role = session?.user?.role;
 
   const filteredNavItems = navItems.filter((item) => canAccessRoute(role, item.href));
   const filteredBottomItems = bottomItems.filter((item) => canAccessRoute(role, item.href));

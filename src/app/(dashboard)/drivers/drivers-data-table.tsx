@@ -72,13 +72,13 @@ export function DriverDataTable({ data }: DriverDataTableProps) {
 
   async function handleDelete() {
     if (!deleteId) return;
-    try {
-      await deleteDriver(deleteId);
+    const result = await deleteDriver(deleteId);
+    if (result.success) {
       toast.success("Driver deleted");
       setDeleteId(null);
       router.refresh();
-    } catch {
-      toast.error("Failed to delete driver");
+    } else {
+      toast.error(result.error || "Failed to delete driver");
     }
   }
 

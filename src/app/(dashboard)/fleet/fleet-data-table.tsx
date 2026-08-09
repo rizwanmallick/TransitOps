@@ -74,13 +74,13 @@ export function FleetDataTable({ data }: FleetDataTableProps) {
 
   async function handleDelete() {
     if (!deleteId) return;
-    try {
-      await deleteVehicle(deleteId);
+    const result = await deleteVehicle(deleteId);
+    if (result.success) {
       toast.success("Vehicle deleted");
       setDeleteId(null);
       router.refresh();
-    } catch {
-      toast.error("Failed to delete vehicle");
+    } else {
+      toast.error(result.error || "Failed to delete vehicle");
     }
   }
 

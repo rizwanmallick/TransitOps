@@ -178,7 +178,7 @@ async function main() {
         maxLoadCapacity: 500,
         odometer: 12000,
         acquisitionCost: 750000,
-        status: "AVAILABLE",
+        status: "ON_TRIP",
       },
     }),
     prisma.vehicle.create({
@@ -204,7 +204,7 @@ async function main() {
         maxLoadCapacity: 3000,
         odometer: 98000,
         acquisitionCost: 3200000,
-        status: "ON_TRIP",
+        status: "AVAILABLE",
       },
     }),
     prisma.vehicle.create({
@@ -255,7 +255,7 @@ async function main() {
         name: "Suresh",
         licenseNumber: "GJ-67890",
         licenseCategory: "HMV",
-        licenseExpiry: new Date("2026-03-15"),
+        licenseExpiry: new Date("2027-03-15"),
         contactNumber: "+91 98765 43211",
         safetyScore: 88,
         status: "ON_TRIP",
@@ -266,10 +266,10 @@ async function main() {
         name: "Priya",
         licenseNumber: "KA-11111",
         licenseCategory: "LMV",
-        licenseExpiry: new Date("2025-09-30"),
+        licenseExpiry: new Date("2027-09-30"),
         contactNumber: "+91 98765 43212",
         safetyScore: 92,
-        status: "AVAILABLE",
+        status: "ON_TRIP",
       },
     }),
     prisma.driver.create({
@@ -321,10 +321,10 @@ async function main() {
         name: "Deepak",
         licenseNumber: "UP-66666",
         licenseCategory: "LMV",
-        licenseExpiry: new Date("2026-05-10"),
+        licenseExpiry: new Date("2027-05-10"),
         contactNumber: "+91 98765 43217",
         safetyScore: 97,
-        status: "AVAILABLE",
+        status: "ON_TRIP",
       },
     }),
   ]);
@@ -362,6 +362,17 @@ async function main() {
     }),
     prisma.trip.create({
       data: {
+        source: "Bangalore",
+        destination: "Chennai",
+        cargoWeight: 600,
+        plannedDistance: 350,
+        status: "DRAFT",
+        vehicleId: vehicles[4].id,
+        driverId: drivers[0].id,
+      },
+    }),
+    prisma.trip.create({
+      data: {
         source: "Mumbai",
         destination: "Pune",
         cargoWeight: 700,
@@ -370,15 +381,6 @@ async function main() {
         vehicleId: vehicles[6].id,
         driverId: drivers[2].id,
         dispatchedAt: new Date("2026-07-10"),
-      },
-    }),
-    prisma.trip.create({
-      data: {
-        source: "Bangalore",
-        destination: "Chennai",
-        cargoWeight: 400,
-        plannedDistance: 350,
-        status: "DRAFT",
       },
     }),
     prisma.trip.create({
@@ -701,7 +703,7 @@ async function main() {
     prisma.fuelLog.create({
       data: {
         vehicleId: vehicles[6].id,
-        tripId: trips[2].id,
+        tripId: trips[3].id,
         liters: 10,
         cost: 850,
         date: new Date("2026-07-10"),
@@ -791,7 +793,7 @@ async function main() {
     prisma.fuelLog.create({
       data: {
         vehicleId: vehicles[9].id,
-        tripId: trips[15].id,
+        tripId: trips[14].id,
         liters: 18,
         cost: 1500,
         date: new Date("2026-05-20"),

@@ -33,8 +33,8 @@ export function CreateExpenseDialog({ vehicles }: CreateExpenseDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [form, setForm] = useState({
-    vehicleId: "",
-    category: "TOLL" as string,
+    vehicleId: "" as string,
+    category: "TOLL" as "FUEL" | "TOLL" | "MAINTENANCE" | "INSURANCE" | "PARKING" | "OTHER",
     description: "",
     amount: 0,
     date: new Date().toISOString().split("T")[0],
@@ -54,7 +54,7 @@ export function CreateExpenseDialog({ vehicles }: CreateExpenseDialogProps) {
       if (result.success) {
         toast.success("Expense added");
         setOpen(false);
-        setForm({ vehicleId: "", category: "TOLL", description: "", amount: 0, date: new Date().toISOString().split("T")[0] });
+        setForm({ vehicleId: "" as string, category: "TOLL", description: "", amount: 0, date: new Date().toISOString().split("T")[0] });
         router.refresh();
       }
     } catch {
@@ -78,7 +78,7 @@ export function CreateExpenseDialog({ vehicles }: CreateExpenseDialogProps) {
           <div>
             <Label className="text-slate-600 dark:text-slate-300">Vehicle</Label>
             <Select
-              value={form.vehicleId || undefined}
+              value={form.vehicleId}
               onValueChange={(v) => setForm({ ...form, vehicleId: v ?? "" })}
               items={vehicles.map((v) => ({
                 value: v.id,
@@ -97,7 +97,7 @@ export function CreateExpenseDialog({ vehicles }: CreateExpenseDialogProps) {
           </div>
           <div>
             <Label className="text-slate-600 dark:text-slate-300">Category</Label>
-            <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v ?? "TOLL" })}>
+            <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: (v as "FUEL" | "TOLL" | "MAINTENANCE" | "INSURANCE" | "PARKING" | "OTHER") ?? "TOLL" })}>
               <SelectTrigger className="bg-white dark:bg-[#1A1A2E] border-[#E2E8F0] dark:border-[#2A2A3E] text-slate-700 mt-1">
                 <SelectValue />
               </SelectTrigger>

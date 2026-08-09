@@ -2,6 +2,8 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 import {
   useReactTable,
   getCoreRowModel,
@@ -19,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { Vehicle } from "@/generated/prisma";
+import { completeMaintenance } from "./actions";
 
 interface MaintenanceWithVehicle {
   id: string;
@@ -39,10 +42,34 @@ interface MaintenanceDataTableProps {
 }
 
 export function MaintenanceDataTable({ logs, vehicles }: MaintenanceDataTableProps) {
+  const [isCompleting, setIsCompleting] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleComplete = async (id: string) => {
+    setIsCompleting(id);
+    try {
+      const result = await completeMaintenance(id);
+      if (result.success) {
+        toast.success("Maintenance completed successfully");
+        router.refresh();
+      } else {
+        toast.error(result.error || "Failed to complete maintenance");
+      }
+    } catch (error) {
+      toast.error("An error occurred while completing maintenance");
+    } finally {
+      setIsCompleting(null);
+    }
+  };
+
   const table = useReactTable({
     data: logs,
     columns: maintenanceColumns,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      onComplete: handleComplete,
+      isCompleting,
+    },
   });
 
   return (

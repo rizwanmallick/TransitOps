@@ -1,9 +1,9 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth, requireRole } from "@/lib/auth-utils";
 import { getFuelAndExpenseData } from "./actions";
 import { FuelExpensesDataTable } from "./fuel-expenses-data-table";
 
 export default async function FuelExpensesPage() {
-  await requireAuth();
+  await requireRole("ADMIN", "FINANCIAL_ANALYST", "FLEET_MANAGER");
   const data = await getFuelAndExpenseData();
 
   return (

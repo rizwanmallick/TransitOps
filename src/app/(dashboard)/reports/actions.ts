@@ -68,7 +68,7 @@ export async function getReportsData() {
       : "0";
 
   // Monthly revenue (simulated: completed trips * avg rate per km)
-  const avgRatePerKm = 15; // INR per km
+  const avgRatePerKm = Number(process.env.AVG_RATE_PER_KM) || 15; // INR per km
   const monthlyRevenue: Record<string, number> = {};
   completedTrips.forEach((trip: (typeof completedTrips)[number]) => {
     const month = new Date(trip.completedAt || trip.createdAt).toLocaleDateString("en-IN", {
@@ -91,10 +91,8 @@ export async function getReportsData() {
     vehicleCosts[e.vehicleId] = (vehicleCosts[e.vehicleId] || 0) + e.amount;
   });
 
-  const vehicleNames = await prisma.vehicle.findMany({
-    select: { id: true, name: true },
-  });
-  const nameMap = Object.fromEntries(vehicleNames.map((v: (typeof vehicleNames)[number]) => [v.id, v.name]));
+  // Use the vehicles array we already fetched instead of making another query
+  const nameMap = Object.fromEntries(vehicles.map((v: (typeof vehicles)[number]) => [v.id, v.name]));
 
   const topCostlyVehicles = Object.entries(vehicleCosts)
     .map(([id, cost]) => ({ name: nameMap[id] || id, cost }))

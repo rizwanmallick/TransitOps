@@ -34,11 +34,11 @@ export function DriverForm({ defaultValues, onSubmit, isLoading }: DriverFormPro
     defaultValues: {
       name: "",
       licenseNumber: "",
-      licenseCategory: "LMV",
-      licenseExpiry: "",
-      contactNumber: "",
+      licenseCategory: "LMV" as string,
+      licenseExpiry: "" as string,
+      contactNumber: "" as string,
       safetyScore: 100,
-      status: "AVAILABLE",
+      status: "AVAILABLE" as "AVAILABLE" | "ON_TRIP" | "OFF_DUTY" | "SUSPENDED",
       ...defaultValues,
     },
   });

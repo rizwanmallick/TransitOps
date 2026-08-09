@@ -1,10 +1,10 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireRouteAccess } from "@/lib/auth-utils";
 import { prisma } from "@/lib/db";
 import { FleetDataTable } from "./fleet-data-table";
 import { Truck, Plus } from "lucide-react";
 
 export default async function FleetPage() {
-  await requireAuth();
+  await requireRouteAccess("/fleet");
   const vehicles = await prisma.vehicle.findMany({
     orderBy: { createdAt: "desc" },
   });

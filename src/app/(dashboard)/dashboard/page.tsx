@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/db";
-import { requireAuth } from "@/lib/auth-utils";
+import { requireRouteAccess } from "@/lib/auth-utils";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { VehicleStatusChart } from "./_components/vehicle-status-chart";
 import { DashboardKpis } from "./_components/dashboard-kpis";
 
 export default async function DashboardPage() {
-  const session = await requireAuth();
+  const session = await requireRouteAccess("/dashboard");
   const role = (session.user as { role: string }).role;
 
   const recentTrips = await prisma.trip.findMany({
@@ -177,7 +177,7 @@ export default async function DashboardPage() {
     const expenseTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
     const operationalCost = fuelTotal + maintenanceTotal + expenseTotal;
 
-    const avgRatePerKm = 15;
+    const avgRatePerKm = Number(process.env.AVG_RATE_PER_KM) || 15;
     const totalRevenue = completedTrips.reduce(
       (sum, t) => sum + (t.actualDistance || t.plannedDistance) * avgRatePerKm,
       0

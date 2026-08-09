@@ -1,9 +1,9 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth, requireRole } from "@/lib/auth-utils";
 import { getReportsData } from "./actions";
 import { ReportsPageClient } from "./reports-page-client";
 
 export default async function ReportsPage() {
-  await requireAuth();
+  await requireRole("ADMIN", "FINANCIAL_ANALYST");
   const data = await getReportsData();
 
   return (

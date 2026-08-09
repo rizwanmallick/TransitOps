@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/shared/status-badge";
+import { Loader2 } from "lucide-react";
 import type { Vehicle } from "@/generated/prisma";
 
 interface MaintenanceWithVehicle {
@@ -54,6 +55,7 @@ export const maintenanceColumns: ColumnDef<MaintenanceWithVehicle>[] = [
     header: "",
     cell: ({ row, table }) => {
       const log = row.original;
+      const isCompleting = (table.options.meta as { isCompleting?: string | null })?.isCompleting;
       if (log.status === "COMPLETED") return null;
       return (
         <Button
@@ -62,8 +64,13 @@ export const maintenanceColumns: ColumnDef<MaintenanceWithVehicle>[] = [
           onClick={() =>
             (table.options.meta as { onComplete?: (id: string) => void })?.onComplete?.(log.id)
           }
+          disabled={isCompleting === log.id}
         >
-          Complete
+          {isCompleting === log.id ? (
+            <Loader2 className="w-3 h-3 animate-spin" />
+          ) : (
+            "Complete"
+          )}
         </Button>
       );
     },

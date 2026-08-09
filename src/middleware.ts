@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-
-const roleRoutes: Record<string, string[]> = {
-  "/fleet": ["ADMIN", "FLEET_MANAGER"],
-  "/drivers": ["ADMIN", "FLEET_MANAGER", "SAFETY_OFFICER"],
-  "/trips": ["ADMIN", "FLEET_MANAGER", "DISPATCHER"],
-  "/maintenance": ["ADMIN", "FLEET_MANAGER"],
-  "/fuel-expenses": ["ADMIN", "FINANCIAL_ANALYST", "FLEET_MANAGER"],
-  "/reports": ["ADMIN", "FINANCIAL_ANALYST"],
-  "/settings": ["ADMIN"],
-};
+import { ROUTE_ACCESS, Role } from "@/lib/rbac";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -32,9 +23,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  const userRole = token.role as string;
+  const userRole = token.role as Role;
 
-  for (const [route, allowedRoles] of Object.entries(roleRoutes)) {
+  for (const [route, allowedRoles] of Object.entries(ROUTE_ACCESS)) {
     if (pathname.startsWith(route)) {
       if (!allowedRoles.includes(userRole)) {
         return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));

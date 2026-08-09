@@ -1,9 +1,9 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth, requireRole } from "@/lib/auth-utils";
 import { prisma } from "@/lib/db";
 import { MaintenanceDataTable } from "./maintenance-data-table";
 
 export default async function MaintenancePage() {
-  await requireAuth();
+  await requireRole("ADMIN", "FLEET_MANAGER");
 
   const [logs, vehicles] = await Promise.all([
     prisma.maintenanceLog.findMany({

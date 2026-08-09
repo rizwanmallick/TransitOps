@@ -42,8 +42,7 @@ export const vehicleColumns: ColumnDef<Vehicle>[] = [
     header: "Capacity",
     cell: ({ row }) => (
       <span className="text-slate-500 dark:text-slate-400">
-        {row.original.maxLoadCapacity.toLocaleString("en-IN")}{" "}
-        {row.original.maxLoadCapacity >= 1000 ? "Ton" : "kg"}
+        {row.original.maxLoadCapacity.toLocaleString("en-IN")} kg
       </span>
     ),
   },

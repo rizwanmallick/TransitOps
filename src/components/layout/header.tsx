@@ -11,10 +11,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function Header() {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const initials = session?.user?.name
     ? session.user.name
@@ -70,23 +76,25 @@ export function Header() {
         </motion.button>
 
         {/* Theme Toggle */}
-        <motion.button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 text-slate-500 dark:text-slate-400 hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer"
-          whileHover={{ scale: 1.05, rotate: 15 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: "spring", stiffness: 400, damping: 15 }}
-        >
-          <motion.div
-            key={theme}
-            initial={{ rotate: -90, opacity: 0 }}
-            animate={{ rotate: 0, opacity: 1 }}
-            exit={{ rotate: 90, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+        {mounted && (
+          <motion.button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/60 dark:bg-white/5 border border-black/5 dark:border-white/8 text-slate-500 dark:text-slate-400 hover:bg-white/80 dark:hover:bg-white/10 transition-all duration-200 cursor-pointer"
+            whileHover={{ scale: 1.05, rotate: 15 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
           >
-            {theme === "dark" ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
-          </motion.div>
-        </motion.button>
+            <motion.div
+              key={theme}
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              exit={{ rotate: 90, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              {theme === "dark" ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
+            </motion.div>
+          </motion.button>
+        )}
 
         {/* Divider */}
         <div className="w-px h-8 bg-black/5 dark:bg-white/8 mx-1" />

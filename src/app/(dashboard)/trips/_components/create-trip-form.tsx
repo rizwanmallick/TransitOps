@@ -44,8 +44,8 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
       destination: "",
       cargoWeight: 0,
       plannedDistance: 0,
-      vehicleId: "",
-      driverId: "",
+      vehicleId: "" as string,
+      driverId: "" as string,
     },
   });
 
@@ -120,7 +120,7 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
             <FormItem>
               <FormLabel className="text-slate-600 dark:text-slate-300">Vehicle</FormLabel>
               <Select
-                value={field.value || undefined}
+                value={field.value}
                 onValueChange={field.onChange}
                 items={vehicles.map((v) => ({
                   value: v.id,
@@ -157,7 +157,7 @@ export function CreateTripForm({ vehicles, drivers }: CreateTripFormProps) {
             <FormItem>
               <FormLabel className="text-slate-600 dark:text-slate-300">Driver</FormLabel>
               <Select
-                value={field.value || undefined}
+                value={field.value}
                 onValueChange={field.onChange}
                 items={drivers.map((d) => ({
                   value: d.id,

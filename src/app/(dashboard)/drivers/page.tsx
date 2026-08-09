@@ -1,9 +1,9 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireRouteAccess } from "@/lib/auth-utils";
 import { prisma } from "@/lib/db";
 import { DriverDataTable } from "./drivers-data-table";
 
 export default async function DriversPage() {
-  await requireAuth();
+  await requireRouteAccess("/drivers");
   const drivers = await prisma.driver.findMany({
     orderBy: { createdAt: "desc" },
   });

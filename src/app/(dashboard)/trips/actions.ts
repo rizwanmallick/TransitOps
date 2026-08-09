@@ -4,14 +4,37 @@ import { prisma } from "@/lib/db";
 import { requireAuth } from "@/lib/auth-utils";
 import { tripSchema, completeTripSchema, type TripInput, type CompleteTripInput } from "@/lib/validations/trip";
 import { revalidatePath } from "next/cache";
+import { canPerformAction } from "@/lib/rbac";
 
 export async function createTrip(data: TripInput) {
   const session = await requireAuth();
-  if (!["ADMIN", "FLEET_MANAGER", "DISPATCHER"].includes(session.user.role)) {
-    throw new Error("Unauthorized");
+  if (!canPerformAction(session.user.role, "createTrip")) {
+    return { success: false, error: "Unauthorized" };
   }
 
   const parsed = tripSchema.parse(data);
+
+  // Check if vehicle is already on an active trip
+  const activeVehicleTrip = await prisma.trip.findFirst({
+    where: {
+      vehicleId: parsed.vehicleId,
+      status: { in: ["DISPATCHED", "IN_PROGRESS"] },
+    },
+  });
+  if (activeVehicleTrip) {
+    return { success: false, error: "Vehicle is already on an active trip" };
+  }
+
+  // Check if driver is already on an active trip
+  const activeDriverTrip = await prisma.trip.findFirst({
+    where: {
+      driverId: parsed.driverId,
+      status: { in: ["DISPATCHED", "IN_PROGRESS"] },
+    },
+  });
+  if (activeDriverTrip) {
+    return { success: false, error: "Driver is already on an active trip" };
+  }
 
   // Validate vehicle exists and is available
   const vehicle = await prisma.vehicle.findUnique({ where: { id: parsed.vehicleId } });
@@ -38,16 +61,20 @@ export async function createTrip(data: TripInput) {
     };
   }
 
-  await prisma.trip.create({ data: parsed });
-  revalidatePath("/trips");
-  revalidatePath("/dashboard");
-  return { success: true };
+  try {
+    await prisma.trip.create({ data: parsed });
+    revalidatePath("/trips");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Failed to create trip" };
+  }
 }
 
 export async function dispatchTrip(tripId: string) {
   const session = await requireAuth();
-  if (!["ADMIN", "FLEET_MANAGER", "DISPATCHER"].includes(session.user.role)) {
-    throw new Error("Unauthorized");
+  if (!canPerformAction(session.user.role, "dispatchTrip")) {
+    return { success: false, error: "Unauthorized" };
   }
 
   const trip = await prisma.trip.findUnique({ where: { id: tripId } });
@@ -59,31 +86,76 @@ export async function dispatchTrip(tripId: string) {
     return { success: false, error: "Trip must have a vehicle and driver assigned" };
   }
 
-  // Use transaction to update trip, vehicle, and driver atomically
-  await prisma.$transaction([
-    prisma.trip.update({
-      where: { id: tripId },
-      data: { status: "DISPATCHED", dispatchedAt: new Date() },
-    }),
-    prisma.vehicle.update({
-      where: { id: trip.vehicleId },
-      data: { status: "ON_TRIP" },
-    }),
-    prisma.driver.update({
-      where: { id: trip.driverId },
-      data: { status: "ON_TRIP" },
-    }),
-  ]);
+  // Check if vehicle is already on an active trip (double-booking prevention)
+  const activeVehicleTrip = await prisma.trip.findFirst({
+    where: {
+      vehicleId: trip.vehicleId,
+      status: { in: ["DISPATCHED", "IN_PROGRESS"] },
+      id: { not: tripId }, // Exclude the current trip being dispatched
+    },
+  });
+  if (activeVehicleTrip) {
+    return { success: false, error: "Vehicle is already on an active trip" };
+  }
 
-  revalidatePath("/trips");
-  revalidatePath("/dashboard");
-  return { success: true };
+  // Check if driver is already on an active trip (double-booking prevention)
+  const activeDriverTrip = await prisma.trip.findFirst({
+    where: {
+      driverId: trip.driverId,
+      status: { in: ["DISPATCHED", "IN_PROGRESS"] },
+      id: { not: tripId }, // Exclude the current trip being dispatched
+    },
+  });
+  if (activeDriverTrip) {
+    return { success: false, error: "Driver is already on an active trip" };
+  }
+
+  // Validate vehicle is still available
+  const vehicle = await prisma.vehicle.findUnique({ where: { id: trip.vehicleId } });
+  if (!vehicle) return { success: false, error: "Vehicle not found" };
+  if (vehicle.status !== "AVAILABLE") {
+    return { success: false, error: "Vehicle is not available for dispatch" };
+  }
+
+  // Validate driver is still available with valid license
+  const driver = await prisma.driver.findUnique({ where: { id: trip.driverId } });
+  if (!driver) return { success: false, error: "Driver not found" };
+  if (driver.status !== "AVAILABLE") {
+    return { success: false, error: "Driver is not available for dispatch" };
+  }
+  if (new Date(driver.licenseExpiry) < new Date()) {
+    return { success: false, error: "Driver license has expired" };
+  }
+
+  // Use transaction to update trip, vehicle, and driver atomically
+  try {
+    await prisma.$transaction([
+      prisma.trip.update({
+        where: { id: tripId },
+        data: { status: "DISPATCHED", dispatchedAt: new Date() },
+      }),
+      prisma.vehicle.update({
+        where: { id: trip.vehicleId },
+        data: { status: "ON_TRIP" },
+      }),
+      prisma.driver.update({
+        where: { id: trip.driverId },
+        data: { status: "ON_TRIP" },
+      }),
+    ]);
+
+    revalidatePath("/trips");
+    revalidatePath("/dashboard");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Failed to dispatch trip" };
+  }
 }
 
 export async function completeTrip(tripId: string, data: CompleteTripInput) {
   const session = await requireAuth();
-  if (!["ADMIN", "FLEET_MANAGER", "DISPATCHER"].includes(session.user.role)) {
-    throw new Error("Unauthorized");
+  if (!canPerformAction(session.user.role, "completeTrip")) {
+    return { success: false, error: "Unauthorized" };
   }
 
   const parsed = completeTripSchema.parse(data);
@@ -93,6 +165,9 @@ export async function completeTrip(tripId: string, data: CompleteTripInput) {
   if (trip.status !== "DISPATCHED" && trip.status !== "IN_PROGRESS") {
     return { success: false, error: "Only dispatched or in-progress trips can be completed" };
   }
+
+  // Get current vehicle data to update odometer
+  const vehicle = trip.vehicleId ? await prisma.vehicle.findUnique({ where: { id: trip.vehicleId } }) : null;
 
   await prisma.$transaction([
     prisma.trip.update({
@@ -104,11 +179,14 @@ export async function completeTrip(tripId: string, data: CompleteTripInput) {
         completedAt: new Date(),
       },
     }),
-    ...(trip.vehicleId
+    ...(trip.vehicleId && vehicle
       ? [
           prisma.vehicle.update({
             where: { id: trip.vehicleId },
-            data: { status: "AVAILABLE" },
+            data: {
+              status: "AVAILABLE",
+              odometer: vehicle.odometer + parsed.actualDistance,
+            },
           }),
         ]
       : []),
@@ -124,13 +202,14 @@ export async function completeTrip(tripId: string, data: CompleteTripInput) {
 
   revalidatePath("/trips");
   revalidatePath("/dashboard");
+  revalidatePath("/fleet");
   return { success: true };
 }
 
 export async function cancelTrip(tripId: string) {
   const session = await requireAuth();
-  if (!["ADMIN", "FLEET_MANAGER", "DISPATCHER"].includes(session.user.role)) {
-    throw new Error("Unauthorized");
+  if (!canPerformAction(session.user.role, "cancelTrip")) {
+    return { success: false, error: "Unauthorized" };
   }
 
   const trip = await prisma.trip.findUnique({ where: { id: tripId } });

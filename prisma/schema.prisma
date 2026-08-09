@@ -142,6 +142,10 @@ model Vehicle {
   maintenanceLogs MaintenanceLog[]
   fuelLogs        FuelLog[]
   expenses        Expense[]
+
+  @@index([status])
+  @@index([createdAt])
+  @@index([type])
 }
 
 model Driver {
@@ -157,6 +161,10 @@ model Driver {
   updatedAt       DateTime     @updatedAt
 
   trips Trip[]
+
+  @@index([status])
+  @@index([safetyScore])
+  @@index([licenseExpiry])
 }
 
 model Trip {
@@ -179,6 +187,13 @@ model Trip {
   driver   Driver?  @relation(fields: [driverId], references: [id])
   fuelLogs FuelLog[]
   expenses Expense[]
+
+  @@index([status])
+  @@index([vehicleId])
+  @@index([driverId])
+  @@index([createdAt])
+  @@index([dispatchedAt])
+  @@index([completedAt])
 }
 
 model MaintenanceLog {
@@ -193,6 +208,11 @@ model MaintenanceLog {
   updatedAt   DateTime          @updatedAt
 
   vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@index([vehicleId])
+  @@index([status])
+  @@index([serviceType])
+  @@index([createdAt])
 }
 
 model FuelLog {
@@ -206,6 +226,10 @@ model FuelLog {
 
   vehicle Vehicle @relation(fields: [vehicleId], references: [id])
   trip    Trip?   @relation(fields: [tripId], references: [id])
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@index([date])
 }
 
 model Expense {
@@ -220,4 +244,9 @@ model Expense {
 
   vehicle Vehicle @relation(fields: [vehicleId], references: [id])
   trip    Trip?   @relation(fields: [tripId], references: [id])
+
+  @@index([vehicleId])
+  @@index([tripId])
+  @@index([category])
+  @@index([date])
 }

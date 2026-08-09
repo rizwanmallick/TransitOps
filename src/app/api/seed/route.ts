@@ -1,9 +1,14 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { requireAuth } from "@/lib/auth-utils";
 
 export async function POST() {
   try {
+    const session = await requireAuth();
+    if (session.user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized - Admin access required" }, { status: 401 });
+    }
     // Clean existing data
     await prisma.expense.deleteMany();
     await prisma.fuelLog.deleteMany();

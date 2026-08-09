@@ -17,3 +17,6 @@ export const completeTripSchema = z.object({
 });
 
 export type CompleteTripInput = z.infer<typeof completeTripSchema>;
+
+export type TripFormData = z.infer<typeof tripSchema>;
+export type CompleteTripFormData = z.infer<typeof completeTripSchema>;

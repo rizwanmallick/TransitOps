@@ -33,10 +33,10 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [form, setForm] = useState({
-    vehicleId: "",
-    liters: 0,
-    cost: 0,
-    date: new Date().toISOString().split("T")[0],
+    vehicleId: "" as string,
+    liters: 0 as number,
+    cost: 0 as number,
+    date: new Date().toISOString().split("T")[0] as string,
   });
 
   async function onSubmit() {
@@ -50,7 +50,7 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
       if (result.success) {
         toast.success("Fuel log added");
         setOpen(false);
-        setForm({ vehicleId: "", liters: 0, cost: 0, date: new Date().toISOString().split("T")[0] });
+        setForm({ vehicleId: "" as string, liters: 0, cost: 0, date: new Date().toISOString().split("T")[0] });
         router.refresh();
       }
     } catch {
@@ -74,7 +74,7 @@ export function CreateFuelLogDialog({ vehicles }: CreateFuelLogDialogProps) {
           <div>
             <Label className="text-slate-600 dark:text-slate-300">Vehicle</Label>
             <Select
-              value={form.vehicleId || undefined}
+              value={form.vehicleId}
               onValueChange={(v) => setForm({ ...form, vehicleId: v ?? "" })}
               items={vehicles.map((v) => ({
                 value: v.id,

@@ -1,9 +1,9 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth, requireRole } from "@/lib/auth-utils";
 import { prisma } from "@/lib/db";
 import { TripDataTable } from "./trip-data-table";
 
 export default async function TripsPage() {
-  await requireAuth();
+  await requireRole("ADMIN", "FLEET_MANAGER", "DISPATCHER");
 
   const [trips, vehicles, drivers] = await Promise.all([
     prisma.trip.findMany({

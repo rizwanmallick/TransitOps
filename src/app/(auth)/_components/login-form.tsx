@@ -75,9 +75,9 @@ export function LoginForm() {
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
-      role: "",
+      email: "" as string,
+      password: "" as string,
+      role: "" as string,
     },
   });
 
@@ -123,6 +123,7 @@ export function LoginForm() {
             opacity: [0.3, 0.6, 0.3],
           }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          suppressHydrationWarning
         />
         <motion.div
           className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl"
@@ -131,6 +132,7 @@ export function LoginForm() {
             opacity: [0.4, 0.2, 0.4],
           }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          suppressHydrationWarning
         />
         <motion.div
           className="absolute top-1/2 left-1/2 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"
@@ -139,6 +141,7 @@ export function LoginForm() {
             opacity: [0.2, 0.4, 0.2],
           }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          suppressHydrationWarning
         />
 
         {/* Content */}
@@ -147,6 +150,7 @@ export function LoginForm() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            suppressHydrationWarning
           >
             <div className="flex items-center gap-4 mb-8">
               <motion.div
@@ -168,6 +172,7 @@ export function LoginForm() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
+            suppressHydrationWarning
           >
             Manage your fleet, dispatch trips, track maintenance, and analyze expenses — all in one place.
           </motion.p>
@@ -177,6 +182,7 @@ export function LoginForm() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
+            suppressHydrationWarning
           >
             {roles.map((role, i) => (
               <motion.div
@@ -184,6 +190,7 @@ export function LoginForm() {
                 variants={itemVariants}
                 whileHover={{ x: 8, backgroundColor: "rgba(255,255,255,0.08)" }}
                 className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/5 hover:border-white/10 transition-colors group cursor-pointer"
+                suppressHydrationWarning
               >
                 <motion.div
                   className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors"
@@ -208,6 +215,7 @@ export function LoginForm() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          suppressHydrationWarning
         >
           {/* Mobile Logo */}
           <motion.div
@@ -215,6 +223,7 @@ export function LoginForm() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
+            suppressHydrationWarning
           >
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
               <Zap className="w-6 h-6 text-white" />
@@ -227,6 +236,7 @@ export function LoginForm() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
+            suppressHydrationWarning
           >
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Welcome back</h2>
             <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm">Sign in to your account to continue</p>
@@ -238,6 +248,7 @@ export function LoginForm() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-2xl p-4"
+              suppressHydrationWarning
             >
               <p className="text-red-600 dark:text-red-400 text-sm font-medium">{error}</p>
             </motion.div>
@@ -250,12 +261,13 @@ export function LoginForm() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
+            suppressHydrationWarning
           >
             <div className="space-y-2">
               <Label htmlFor="email" className="text-slate-600 dark:text-slate-400 text-sm font-medium">
                 Email
               </Label>
-              <motion.div whileFocus={{ scale: 1.01 }}>
+              <motion.div whileFocus={{ scale: 1.01 }} suppressHydrationWarning>
                 <Input
                   id="email"
                   type="email"

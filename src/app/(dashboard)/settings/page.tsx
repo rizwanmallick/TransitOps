@@ -1,8 +1,8 @@
-import { requireAuth } from "@/lib/auth-utils";
+import { requireAuth, requireRole } from "@/lib/auth-utils";
 import { SettingsClient } from "./settings-client";
 
 export default async function SettingsPage() {
-  await requireAuth();
+  await requireRole("ADMIN");
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
